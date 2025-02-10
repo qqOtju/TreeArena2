@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Scripts.UI.Tools.MyGridLayout
+namespace Tools.MyGridLayout
 {
     [ExecuteInEditMode]
     public abstract class AbstractGridLayout : MonoBehaviour

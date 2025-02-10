@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 namespace Project.Scripts.Debug
 {
-    //оптимізаця та покращення коду
     public class DebugSystem: MonoBehaviour
     {
         [Title("Settings")]
@@ -62,10 +61,7 @@ namespace Project.Scripts.Debug
             _toggleWindowSizeButton.onClick.AddListener(ToggleWindowSize);
             _closeButton.onClick.AddListener(Close);
             _openButton.onClick.AddListener(Open);
-        }
-
-        private void Start()
-        {
+            
             _logTextPool = new MonoBehaviourPool<TMP_Text>(_logTextPrefab, _logTextParent);
             _logTextPool.Initialize(20);
             _originalAnchoredPosition = _windowRect.anchoredPosition;

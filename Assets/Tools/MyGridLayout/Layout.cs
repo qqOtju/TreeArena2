@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Scripts.UI.Tools.MyGridLayout
+namespace Tools.MyGridLayout
 {
     public class Layout: AbstractGridLayout
     {

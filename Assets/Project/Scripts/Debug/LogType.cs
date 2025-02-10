@@ -5,5 +5,7 @@
         All,
         General,
         Info,
+        WispComponent,
+        Wisp
     }
 }

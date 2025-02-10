@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Project.Scripts.UI.Tools.MyGridLayout
+namespace Tools.MyGridLayout
 {
 public class ReadOnlyAttribute : PropertyAttribute { }
 
