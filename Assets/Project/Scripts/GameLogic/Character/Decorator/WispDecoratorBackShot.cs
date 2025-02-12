@@ -9,6 +9,7 @@ namespace Project.Scripts.GameLogic.Character.Decorator
 {
     public class WispDecoratorBackShot: WispDecorator
     {
+        private readonly BulletFactory _bulletFactory;
         private readonly Transform _bulletSpawnPoint;
         
         public WispDecoratorBackShot(BulletFactory bulletFactory, Transform bulletSpawnPoint,
@@ -26,7 +27,7 @@ namespace Project.Scripts.GameLogic.Character.Decorator
             base.Shoot();
             DebugSystem.Instance.Log(LogType.WispComponent, 
                 "Back <color=green>shot</color>!");
-            var bullet = CreateBullet();
+            var bullet = _bulletFactory.Get();
             var angle = 180f;
             bullet.transform.rotation = Quaternion.Euler(
                 new Vector3(0,0, _bulletSpawnPoint.localRotation.eulerAngles.z + angle));

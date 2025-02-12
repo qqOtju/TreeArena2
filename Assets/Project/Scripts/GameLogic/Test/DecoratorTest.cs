@@ -24,6 +24,14 @@ namespace Project.Scripts.GameLogic.Test
                 BackShot();
             if (Input.GetKeyDown(KeyCode.D))
                 UniqueAttack();
+            if (Input.GetKeyDown(KeyCode.F))
+                InterestingMovement();
+            if (Input.GetKeyDown(KeyCode.G))
+                BulletsOnHealthHit();
+            if (Input.GetKeyDown(KeyCode.H))
+                ReAim();
+            if (Input.GetKeyDown(KeyCode.J))
+                Melee();
         }
 
         private void DoubleAttack()
@@ -39,6 +47,26 @@ namespace Project.Scripts.GameLogic.Test
         private void UniqueAttack()
         {
             _wisp.AddDecorator<WispDecoratorUniqueBullet>();
+        }
+        
+        private void InterestingMovement()
+        {
+            _wisp.AddDecorator<WispDecoratorInterestingMovement>();
+        }
+        
+        private void BulletsOnHealthHit()
+        {
+            _wisp.AddDecorator<WispDecoratorBulletsOnTargetDeath>();
+        }
+
+        private void ReAim()
+        {
+            _wisp.AddDecorator<WispDecoratorReAim>();
+        }
+
+        private void Melee()
+        {
+            _wisp.AddDecorator<WispDecoratorMelee>();
         }
     }
 }

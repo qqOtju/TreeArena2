@@ -10,6 +10,7 @@ namespace Project.Scripts.GameLogic.Character.Decorator
     public class WispDecoratorDoubleAttack: WispDecorator
     {
         private readonly Transform _bulletSpawnPoint;
+        private readonly BulletFactory _bulletFactory;
 
         public WispDecoratorDoubleAttack(BulletFactory bulletFactory, Transform bulletSpawnPoint,
             WispComponent component): base(component)
@@ -17,8 +18,10 @@ namespace Project.Scripts.GameLogic.Character.Decorator
             DebugSystem.Instance.Log(LogType.WispComponent, 
                 $"<color=yellow>Double attack decorator added!</color>");
             _bulletSpawnPoint = bulletSpawnPoint;
+            _bulletFactory = bulletFactory;
             var args = new BulletActionsArgs(OnHealthHit, OnWallHit, MoveForward, 2);
-            bulletFactory.SetActions(args);
+            _bulletFactory.SetActions(args);
+            _bulletFactory.SetConfigBulletFunc(ConfigBullet);
         }
 
         public override void Shoot()
@@ -26,8 +29,8 @@ namespace Project.Scripts.GameLogic.Character.Decorator
             base.Shoot();
             DebugSystem.Instance.Log(LogType.WispComponent, 
                 "Double <color=red>attack</color>!");
-            var bullet1 = CreateBullet();
-            var bullet2 = CreateBullet();
+            var bullet1 = _bulletFactory.Get();
+            var bullet2 = _bulletFactory.Get();
             const float angle = 7f;
             var localRotation = _bulletSpawnPoint.localRotation;
             bullet1.transform.rotation = Quaternion.Euler(

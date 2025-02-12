@@ -88,7 +88,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             BulletSpawnPoint = bulletSpawnPoint;
             _wispDecoratorFactory = factory;
             BulletFactory = new BulletFactory(bullet, container, diContainer, bulletSpawnPoint);
-            _decorator = new WispDecoratorStandard(new WispComponentStateA(BulletFactory, bulletSpawnPoint));
+            _decorator = new WispDecoratorStandard(new WispComponentStateA(BulletFactory, bulletSpawnPoint), BulletFactory, bulletSpawnPoint);
         }
         
         public void Update()
@@ -127,7 +127,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             BulletSpawnPoint = bulletSpawnPoint;
             _wispDecoratorFactory = factory;
             BulletFactory = new BulletFactory(bullet, container, diContainer, bulletSpawnPoint);
-            _decorator = new WispDecoratorStandard(new WispComponentStateB(BulletFactory, bulletSpawnPoint));
+            _decorator = new WispDecoratorStandard(new WispComponentStateB(BulletFactory, bulletSpawnPoint), BulletFactory, bulletSpawnPoint);
         }
         
         public void Update()

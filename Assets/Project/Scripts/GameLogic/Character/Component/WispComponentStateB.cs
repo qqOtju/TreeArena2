@@ -21,6 +21,7 @@ namespace Project.Scripts.GameLogic.Character.Component
             _bulletSpawnPoint = bulletSpawnPoint;
             var args = new BulletActionsArgs(OnHealthHit, OnWallHit, MoveForward, Piercing);
             _bulletFactory.SetActions(args);
+            _bulletFactory.SetConfigBulletFunc(ConfigBullet);
         }
 
         public override void OnHealthHit(Bullet bullet, IHealth health)
@@ -53,9 +54,8 @@ namespace Project.Scripts.GameLogic.Character.Component
             DebugSystem.Instance.Log(LogType.WispComponent, "Bullet <color=red>killed</color> target!");
         }
 
-        public override Bullet CreateBullet()
+        public override Bullet ConfigBullet(Bullet bullet)
         {
-            var bullet = _bulletFactory.Create();
             bullet.transform.rotation = Quaternion.Euler(
                 new Vector3(0,0, _bulletSpawnPoint.localRotation.eulerAngles.z));
             return bullet;
@@ -64,7 +64,7 @@ namespace Project.Scripts.GameLogic.Character.Component
         public override void Shoot()
         {
             DebugSystem.Instance.Log(LogType.WispComponent, "<color=green>Shoot</color>!");
-            CreateBullet();
+            _bulletFactory.Get();
         }
     }
 }

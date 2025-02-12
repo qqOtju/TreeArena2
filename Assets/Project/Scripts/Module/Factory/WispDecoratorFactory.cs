@@ -28,6 +28,10 @@ namespace Project.Scripts.Module.Factory
             _decorators.Add(typeof(WispDecoratorDoubleAttack), CreateDoubleAttackDecorator);
             _decorators.Add(typeof(WispDecoratorBackShot), CreateBackShotDecorator);
             _decorators.Add(typeof(WispDecoratorUniqueBullet), CreateUniqueBulletDecorator);
+            _decorators.Add(typeof(WispDecoratorInterestingMovement), CreateInterestingMovementDecorator);
+            _decorators.Add(typeof(WispDecoratorBulletsOnTargetDeath), CreateBulletsOnHealthHitDecorator);
+            _decorators.Add(typeof(WispDecoratorReAim), CreateReAimDecorator);
+            _decorators.Add(typeof(WispDecoratorMelee), CreateMeleeDecorator);
         }
 
         private WispDecorator CreateDoubleAttackDecorator(IWisp wisp, WispDecorator wispDecorator)
@@ -44,6 +48,26 @@ namespace Project.Scripts.Module.Factory
         {
             var uniqueFactory = new BulletFactory(_uniqueBullet, _uniqueBulletContainer, _diContainer, wisp.BulletSpawnPoint);
             return new WispDecoratorUniqueBullet(wispDecorator, wisp.BulletFactory, wisp.BulletSpawnPoint, uniqueFactory);
+        }
+        
+        private WispDecorator CreateInterestingMovementDecorator(IWisp wisp, WispDecorator wispDecorator)
+        {
+            return new WispDecoratorInterestingMovement(wispDecorator, wisp.BulletFactory);
+        }
+        
+        private WispDecorator CreateBulletsOnHealthHitDecorator(IWisp wisp, WispDecorator wispDecorator)
+        {
+            return new WispDecoratorBulletsOnTargetDeath(wispDecorator, wisp.BulletFactory);
+        }
+        
+        private WispDecorator CreateReAimDecorator(IWisp wisp, WispDecorator wispDecorator)
+        {
+            return new WispDecoratorReAim(wispDecorator, wisp.BulletFactory);
+        }
+        
+        private WispDecorator CreateMeleeDecorator(IWisp wisp, WispDecorator wispDecorator)
+        {
+            return new WispDecoratorMelee(wispDecorator, wisp.BulletFactory);
         }
         
         public WispDecorator CreateDecorator<T>(IWisp wisp, WispDecorator wispDecorator) where T: WispDecorator

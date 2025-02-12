@@ -12,7 +12,7 @@ namespace Project.Scripts.DesignPattern.Factory
             Pool = new MonoBehaviourPool<T>(prefab, container);
         }
 
-        public abstract T Create();
+        public abstract T Get();
         public abstract void Release(T obj);
     }
 }

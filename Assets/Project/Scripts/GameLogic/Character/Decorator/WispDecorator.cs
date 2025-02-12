@@ -4,43 +4,46 @@ using Project.Scripts.GameLogic.Character.Component;
 
 namespace Project.Scripts.GameLogic.Character.Decorator
 {
-    public class WispDecorator: WispComponent
+    public abstract class WispDecorator: WispComponent
     {
-        private WispComponent _component;
+        protected WispComponent Component;
         
-        public WispDecorator(WispComponent component)
+        protected WispDecorator(WispComponent component)
         {
-            _component = component;
+            Component = component;
         }
         
         public override void OnHealthHit(Bullet bullet, IHealth health)
         {
-            _component.OnHealthHit(bullet, health);
+            Component.OnHealthHit(bullet, health);
+            //ToDo: be cautious with this line, may cause problems
+            if(health.LastHealthChangeArgs.Type == HeathChangeType.Death)
+                OnTargetDeath(bullet, health);
         }
 
         public override void OnWallHit(Bullet bullet)
         {
-            _component.OnWallHit(bullet);
+            Component.OnWallHit(bullet);
         }
 
         public override void MoveForward(Bullet bullet)
         {
-            _component.MoveForward(bullet);
+            Component.MoveForward(bullet);
         }
 
         public override void OnTargetDeath(Bullet bullet, IHealth health)
         {
-            _component.OnTargetDeath(bullet, health);
+            Component.OnTargetDeath(bullet, health);
         }
 
-        public override Bullet CreateBullet()
+        public override Bullet ConfigBullet(Bullet bullet)
         {
-            return _component.CreateBullet();
+            return Component.ConfigBullet(bullet);
         }
 
         public override void Shoot()
         {
-            _component.Shoot();
+            Component.Shoot();
         }
     }
 }

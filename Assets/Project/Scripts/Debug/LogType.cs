@@ -6,6 +6,8 @@
         General,
         Info,
         WispComponent,
-        Wisp
+        Wisp,
+        Enemy,
+        Entity,
     }
 }

@@ -63,7 +63,7 @@ namespace Project.Scripts.GameLogic.Character.Decorator
             {
                 DebugSystem.Instance.Log(LogType.WispComponent, $"<color=yellow>Unique attack!</color>");
                 _currentShot = 0;
-                var bullet = _uniqueFactory.Create();
+                var bullet = _uniqueFactory.Get();
                 bullet.transform.rotation = Quaternion.Euler(
                     new Vector3(0,0, _spawnPoint.localRotation.eulerAngles.z));
             }

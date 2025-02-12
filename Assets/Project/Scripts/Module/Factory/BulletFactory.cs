@@ -1,6 +1,6 @@
 ﻿using System;
+using ModestTree.Util;
 using Project.Scripts.DesignPattern.Factory;
-using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Character.Attack;
 using UnityEngine;
 using Zenject;
@@ -14,6 +14,7 @@ namespace Project.Scripts.Module.Factory
         
         private readonly DiContainer _diContainer;
 
+        public Func<Bullet, Bullet> ConfigBulletFunc;
         private BulletActionsArgs _args;
         private Transform _muzzle;
 
@@ -25,23 +26,29 @@ namespace Project.Scripts.Module.Factory
             _diContainer = diContainer;
         }
 
-        public void SetActions(BulletActionsArgs args)
-        {
-            _args = args;
-        }
-
-        public override Bullet Create()
+        public override Bullet Get()
         {
             var bullet = Pool.Get();
             bullet.transform.position = _muzzle.position;
             bullet.Init(_args);
             _diContainer.Inject(bullet);
+            ConfigBulletFunc?.Invoke(bullet);
             return bullet;
         }
 
         public override void Release(Bullet obj)
         {
             Pool.Release(obj);
+        }
+
+        public void SetActions(BulletActionsArgs args)
+        {
+            _args = args;
+        }
+        
+        public void SetConfigBulletFunc(Func<Bullet, Bullet> func)
+        {
+            ConfigBulletFunc = func;
         }
     }
 }

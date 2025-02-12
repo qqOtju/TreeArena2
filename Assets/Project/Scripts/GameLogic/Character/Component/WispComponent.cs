@@ -9,7 +9,7 @@ namespace Project.Scripts.GameLogic.Character.Component
         public abstract void OnWallHit(Bullet bullet);
         public abstract void MoveForward(Bullet bullet);
         public abstract void OnTargetDeath(Bullet bullet, IHealth health);
-        public abstract Bullet CreateBullet();
+        public abstract Bullet ConfigBullet(Bullet bullet);
         public abstract void Shoot();
-    }
+    } 
 }

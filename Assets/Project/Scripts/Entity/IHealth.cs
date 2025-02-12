@@ -8,6 +8,7 @@ namespace Project.Scripts.Entity
         public int MaxHealth { get; }
         public float CurrentHealth { get; }
         public GameObject GO { get; }
+        public OnHealthChangeArgs LastHealthChangeArgs { get; }
         
         public event Action<OnHealthChangeArgs> OnHealthChange; 
 

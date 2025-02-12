@@ -37,7 +37,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
         {
             _mainCamera = Camera.main;
             BulletFactory = new BulletFactory(_bulletPrefab, _bulletContainer, _diContainer, _bulletSpawnPoint);
-            _wispDecorator = new WispDecoratorStandard(new WispStandardComponent(BulletFactory, _bulletSpawnPoint));
+            _wispDecorator = new WispDecoratorStandard(new WispStandardComponent(BulletFactory, _bulletSpawnPoint), BulletFactory, _bulletSpawnPoint);
         }
         
         private void Update()
