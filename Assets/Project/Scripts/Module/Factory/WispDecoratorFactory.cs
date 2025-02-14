@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.GameLogic.Character.Wisp;
+using Project.Scripts.Module.Stats;
 using UnityEngine;
 using Zenject;
 
@@ -16,11 +17,13 @@ namespace Project.Scripts.Module.Factory
         private readonly Dictionary<Type, Func<IWisp, WispDecorator, WispDecorator>> _decorators = new();
 
         private DiContainer _diContainer;
+        private WispStats _wispStats;
 
         [Inject]
-        private void Construct(DiContainer diContainer)
+        private void Construct(DiContainer diContainer, WispStats wispStats)
         {
             _diContainer = diContainer;
+            _wispStats = wispStats;
         }
         
         private void Awake()
@@ -32,48 +35,54 @@ namespace Project.Scripts.Module.Factory
             _decorators.Add(typeof(WispDecoratorBulletsOnTargetDeath), CreateBulletsOnHealthHitDecorator);
             _decorators.Add(typeof(WispDecoratorReAim), CreateReAimDecorator);
             _decorators.Add(typeof(WispDecoratorMelee), CreateMeleeDecorator);
+            _decorators.Add(typeof(WispDecoratorSniper), CreateSniperDecorator);
         }
 
-        private WispDecorator CreateDoubleAttackDecorator(IWisp wisp, WispDecorator wispDecorator)
+        private WispDecorator CreateDoubleAttackDecorator(IWisp wispBase, WispDecorator wispDecorator)
         {
-            return new WispDecoratorDoubleAttack(wisp.BulletFactory, wisp.BulletSpawnPoint, wispDecorator);
+            return new WispDecoratorDoubleAttack(wispBase.BulletFactory, wispBase.BulletSpawnPoint, wispDecorator, _wispStats);
         }
         
-        private WispDecorator CreateBackShotDecorator(IWisp wisp, WispDecorator wispDecorator)
+        private WispDecorator CreateBackShotDecorator(IWisp wispBase, WispDecorator wispDecorator)
         {
-            return new WispDecoratorBackShot(wisp.BulletFactory, wisp.BulletSpawnPoint, wispDecorator);
+            return new WispDecoratorBackShot(wispBase.BulletFactory, wispBase.BulletSpawnPoint, wispDecorator, _wispStats);
         }
         
-        private WispDecorator CreateUniqueBulletDecorator(IWisp wisp, WispDecorator wispDecorator)
+        private WispDecorator CreateUniqueBulletDecorator(IWisp wispBase, WispDecorator wispDecorator)
         {
-            var uniqueFactory = new BulletFactory(_uniqueBullet, _uniqueBulletContainer, _diContainer, wisp.BulletSpawnPoint);
-            return new WispDecoratorUniqueBullet(wispDecorator, wisp.BulletFactory, wisp.BulletSpawnPoint, uniqueFactory);
+            var uniqueFactory = new BulletFactory(_uniqueBullet, _uniqueBulletContainer, _diContainer, wispBase.BulletSpawnPoint);
+            return new WispDecoratorUniqueBullet(wispDecorator, wispBase.BulletFactory, wispBase.BulletSpawnPoint, uniqueFactory, _wispStats);
         }
         
-        private WispDecorator CreateInterestingMovementDecorator(IWisp wisp, WispDecorator wispDecorator)
+        private WispDecorator CreateInterestingMovementDecorator(IWisp wispBase, WispDecorator wispDecorator)
         {
-            return new WispDecoratorInterestingMovement(wispDecorator, wisp.BulletFactory);
+            return new WispDecoratorInterestingMovement(wispDecorator, wispBase.BulletFactory, _wispStats);
         }
         
-        private WispDecorator CreateBulletsOnHealthHitDecorator(IWisp wisp, WispDecorator wispDecorator)
+        private WispDecorator CreateBulletsOnHealthHitDecorator(IWisp wispBase, WispDecorator wispDecorator)
         {
-            return new WispDecoratorBulletsOnTargetDeath(wispDecorator, wisp.BulletFactory);
+            return new WispDecoratorBulletsOnTargetDeath(wispDecorator, wispBase.BulletFactory, _wispStats);
         }
         
-        private WispDecorator CreateReAimDecorator(IWisp wisp, WispDecorator wispDecorator)
+        private WispDecorator CreateReAimDecorator(IWisp wispBase, WispDecorator wispDecorator)
         {
-            return new WispDecoratorReAim(wispDecorator, wisp.BulletFactory);
+            return new WispDecoratorReAim(wispDecorator, wispBase.BulletFactory, _wispStats);
         }
         
-        private WispDecorator CreateMeleeDecorator(IWisp wisp, WispDecorator wispDecorator)
+        private WispDecorator CreateMeleeDecorator(IWisp wispBase, WispDecorator wispDecorator)
         {
-            return new WispDecoratorMelee(wispDecorator, wisp.BulletFactory);
+            return new WispDecoratorMelee(wispDecorator, wispBase.BulletFactory, _wispStats);
         }
         
-        public WispDecorator CreateDecorator<T>(IWisp wisp, WispDecorator wispDecorator) where T: WispDecorator
+        private WispDecorator CreateSniperDecorator(IWisp wispBase, WispDecorator wispDecorator)
+        {
+            return new WispDecoratorSniper(wispDecorator, wispBase.BulletFactory, _wispStats);
+        }
+        
+        public WispDecorator CreateDecorator<T>(IWisp wispBase, WispDecorator wispDecorator) where T: WispDecorator
         {
             if (_decorators.TryGetValue(typeof(T), out var decorator))
-                return decorator(wisp, wispDecorator);
+                return decorator(wispBase, wispDecorator);
             return null;
         }
     }

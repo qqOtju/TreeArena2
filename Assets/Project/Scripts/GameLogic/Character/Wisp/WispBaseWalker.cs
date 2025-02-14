@@ -3,6 +3,7 @@ using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Stats;
 using UnityEngine;
 using Zenject;
 using LogType = Project.Scripts.Debug.LogType;
@@ -10,7 +11,7 @@ using LogType = Project.Scripts.Debug.LogType;
 namespace Project.Scripts.GameLogic.Character.Wisp
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class WispWalker: MonoBehaviour, IWisp
+    public class WispBaseWalker: WispBase
     {
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private Bullet _bulletPrefab;
@@ -23,19 +24,18 @@ namespace Project.Scripts.GameLogic.Character.Wisp
         private WispDecorator _wispDecorator;
         private DiContainer _diContainer;
         private Vector3 _pastPosition;
+        private WispStats _wispStats;
         private Camera _mainCamera;
         private float _attackTimer;
         private float _currentDistance;
         private Rigidbody2D _rb;
 
-        public Transform BulletSpawnPoint => _bulletSpawnPoint;
-        public BulletFactory BulletFactory { get; private set; }
-  
         [Inject]
-        private void Construct(DiContainer diContainer, WispDecoratorFactory wispDecoratorFactory)
+        private void Construct(DiContainer diContainer, WispDecoratorFactory wispDecoratorFactory, WispStats wispStats)
         {
             _diContainer = diContainer;
             _wispDecoratorFactory = wispDecoratorFactory;
+            _wispStats = wispStats;
         }
         
         private void Start()
@@ -44,7 +44,8 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             _basicMovement = new BasicMovement(_rb);
             _mainCamera = Camera.main;
             BulletFactory = new BulletFactory(_bulletPrefab, _bulletContainer, _diContainer, _bulletSpawnPoint);
-            _wispDecorator = new WispDecoratorStandard(new WispStandardComponent(BulletFactory, _bulletSpawnPoint), BulletFactory, _bulletSpawnPoint);
+            BulletSpawnPoint = _bulletSpawnPoint;
+            _wispDecorator = new WispDecoratorStandard(new WispStandardComponent(BulletFactory, _bulletSpawnPoint, _wispStats), BulletFactory, _bulletSpawnPoint);
         }
         
         private void Update()
@@ -53,6 +54,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             var distance = Vector3.Distance(currentPos, _pastPosition);
             _currentDistance += distance;
             _pastPosition = currentPos;
+            //ToDo: make it depend on _wispStats attack speed
             if (_currentDistance >= DistanceToShoot)
             {
                 _wispDecorator.Shoot();
@@ -78,7 +80,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             _bulletSpawnPoint.localRotation = Quaternion.Euler(0, 0, targetAngle);
         }
         
-        public void AddDecorator<T>() where T: WispDecorator
+        public override void AddDecorator<T>()
         {
             DebugSystem.Instance.Log(LogType.Wisp, "Decorator added!");
             _wispDecorator = _wispDecoratorFactory.CreateDecorator<T>(this, _wispDecorator);

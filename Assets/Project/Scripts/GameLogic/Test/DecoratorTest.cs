@@ -1,19 +1,21 @@
-﻿using System;
+﻿using Project.Scripts.Config.Wisp;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.GameLogic.Character.Wisp;
 using UnityEngine;
+using Zenject;
 
 namespace Project.Scripts.GameLogic.Test
 {
     public class DecoratorTest: MonoBehaviour
     {
-        [SerializeField] private GameObject _wispObject;
+        [SerializeField] private WispBase _wispObject;
         
-        private IWisp _wisp;
+        private WispBonuses _bonuses;
 
-        private void Start()
+        [Inject]
+        private void Construct(WispBonuses bonuses)
         {
-            _wisp = _wispObject.GetComponent<IWisp>();
+            _bonuses = bonuses;
         }
 
         private void Update()
@@ -32,41 +34,76 @@ namespace Project.Scripts.GameLogic.Test
                 ReAim();
             if (Input.GetKeyDown(KeyCode.J))
                 Melee();
+            if (Input.GetKeyDown(KeyCode.K))
+                Sniper();
+            if (Input.GetKeyDown(KeyCode.Q))
+                AddDamage();
+            if (Input.GetKeyDown(KeyCode.W))
+                AddAttackSpeed();
+            if (Input.GetKeyDown(KeyCode.E))
+                AddCriticalChance();
+            if (Input.GetKeyDown(KeyCode.R))
+                AddCriticalDamage();
         }
 
         private void DoubleAttack()
         {
-            _wisp.AddDecorator<WispDecoratorDoubleAttack>();
+            _wispObject.AddDecorator<WispDecoratorDoubleAttack>();
         }
 
         private void BackShot()
         {
-            _wisp.AddDecorator<WispDecoratorBackShot>();
+            _wispObject.AddDecorator<WispDecoratorBackShot>();
         }
 
         private void UniqueAttack()
         {
-            _wisp.AddDecorator<WispDecoratorUniqueBullet>();
+            _wispObject.AddDecorator<WispDecoratorUniqueBullet>();
         }
         
         private void InterestingMovement()
         {
-            _wisp.AddDecorator<WispDecoratorInterestingMovement>();
+            _wispObject.AddDecorator<WispDecoratorInterestingMovement>();
         }
         
         private void BulletsOnHealthHit()
         {
-            _wisp.AddDecorator<WispDecoratorBulletsOnTargetDeath>();
+            _wispObject.AddDecorator<WispDecoratorBulletsOnTargetDeath>();
         }
 
         private void ReAim()
         {
-            _wisp.AddDecorator<WispDecoratorReAim>();
+            _wispObject.AddDecorator<WispDecoratorReAim>();
         }
 
         private void Melee()
         {
-            _wisp.AddDecorator<WispDecoratorMelee>();
+            _wispObject.AddDecorator<WispDecoratorMelee>();
+        }
+        
+        private void Sniper()
+        {
+            _wispObject.AddDecorator<WispDecoratorSniper>();
+        }
+
+        private void AddDamage()
+        {
+            _bonuses.Damage += 10;
+        }
+        
+        private void AddAttackSpeed()
+        {
+            _bonuses.AttackSpeed -= 0.1f;
+        }
+        
+        private void AddCriticalChance()
+        {
+            _bonuses.CriticalChance += 10f;
+        }
+
+        private void AddCriticalDamage()
+        {
+            _bonuses.CriticalDamage += 10f;
         }
     }
 }

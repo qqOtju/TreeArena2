@@ -4,31 +4,29 @@ using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.Module.Factory;
-using UnityEngine;
+using Project.Scripts.Module.Stats;
 using LogType = Project.Scripts.Debug.LogType;
 
 namespace Project.Scripts.GameLogic.Character.Decorator
 {
     public class WispDecoratorSniper: WispDecorator
     {
-        private const int BonusDamageMultiplier = 5;
-        
         private readonly Dictionary<Bullet, int> _bulletsDamage = new ();
-        private readonly BulletFactory _bulletFactory;
-        
-        public WispDecoratorSniper(WispComponent component, BulletFactory bulletFactory) : base(component)
+
+        public WispDecoratorSniper(WispComponent component, BulletFactory bulletFactory, WispStats wispStats) : base(component)
         {
             DebugSystem.Instance.Log(LogType.WispComponent, 
                 $"<color=yellow>Sniper decorator added!</color>");
-            _bulletFactory = bulletFactory;
-            var args = new BulletActionsArgs(OnHealthHit, OnWallHit, MoveForward, 1);
-            _bulletFactory.SetActions(args);
-            _bulletFactory.SetConfigBulletFunc(ConfigBullet);
+            var args = new BulletActionsArgs(OnEnemyHit, OnWallHit, MoveForward, wispStats.Piercing);
+            bulletFactory.SetActions(args);
+            bulletFactory.SetConfigBulletFunc(ConfigBullet);
         }
 
         public override Bullet ConfigBullet(Bullet bullet)
         {
             base.ConfigBullet(bullet);
+            DebugSystem.Instance.Log(LogType.WispComponent, 
+                $"<color=yellow>Sniper bullet configured!</color>");
             _bulletsDamage.TryAdd(bullet, 0);
             _bulletsDamage[bullet] = 0;
             return bullet;
@@ -37,18 +35,18 @@ namespace Project.Scripts.GameLogic.Character.Decorator
         public override void MoveForward(Bullet bullet)
         {
             base.MoveForward(bullet);
-            _bulletsDamage[bullet]++;
+            _bulletsDamage[bullet] += 2;
         }
 
-        public override void OnHealthHit(Bullet bullet, IHealth health)
+        public override void OnEnemyHit(Bullet bullet, IEnemyHealth health)
         {
-            base.OnHealthHit(bullet, health);
-            if(health.LastHealthChangeArgs.Type == HeathChangeType.Death)
+            base.OnEnemyHit(bullet, health);
+            if(bullet == null || health.LastHealthChangeArgs.Type == HeathChangeType.Death)
                  return;
-            var bonusDamage = _bulletsDamage[bullet] * BonusDamageMultiplier;
+            var bonusDamage = _bulletsDamage[bullet];
+            if(bonusDamage <= 0)
+                return;
             health.TakeDamage(bonusDamage);
-            if(bullet.CurrentPiercing <= 0)
-                _bulletFactory.Release(bullet);
         }
     }
 }

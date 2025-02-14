@@ -4,6 +4,7 @@ using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Stats;
 using LogType = Project.Scripts.Debug.LogType;
 
 namespace Project.Scripts.GameLogic.Character.Decorator
@@ -13,23 +14,21 @@ namespace Project.Scripts.GameLogic.Character.Decorator
         private const int BaseDamage = 100;
         
         private readonly Dictionary<Bullet, int> _bulletsDamage = new ();
-        private readonly BulletFactory _bulletFactory;
 
-        public WispDecoratorMelee(WispComponent component, BulletFactory bulletFactory) : base(component)
+        public WispDecoratorMelee(WispComponent component, BulletFactory bulletFactory, WispStats wispStats) : base(component)
         {
             DebugSystem.Instance.Log(LogType.WispComponent, 
                 $"<color=yellow>Melee decorator added!</color>");
-            _bulletFactory = bulletFactory;
-            var args = new BulletActionsArgs(OnHealthHit, OnWallHit, MoveForward, 1);
-            _bulletFactory.SetActions(args);
-            _bulletFactory.SetConfigBulletFunc(ConfigBullet);
+            var args = new BulletActionsArgs(OnEnemyHit, OnWallHit, MoveForward, wispStats.Piercing);
+            bulletFactory.SetActions(args);
+            bulletFactory.SetConfigBulletFunc(ConfigBullet);
         }
 
         public override Bullet ConfigBullet(Bullet bullet)
         {
             base.ConfigBullet(bullet);
             DebugSystem.Instance.Log(LogType.WispComponent, 
-                $"<color=yellow>Melee bullet created!</color>");
+                $"<color=yellow>Melee bullet configured!</color>");
             _bulletsDamage.TryAdd(bullet, BaseDamage);
             _bulletsDamage[bullet] = BaseDamage;
             return bullet;
@@ -41,9 +40,9 @@ namespace Project.Scripts.GameLogic.Character.Decorator
             _bulletsDamage[bullet] -= 2;
         }
 
-        public override void OnHealthHit(Bullet bullet, IHealth health)
+        public override void OnEnemyHit(Bullet bullet, IEnemyHealth health)
         {
-            base.OnHealthHit(bullet, health);
+            base.OnEnemyHit(bullet, health);
             if(bullet == null || health.LastHealthChangeArgs.Type == HeathChangeType.Death)
                 return;
             var bonusDamage = _bulletsDamage[bullet];

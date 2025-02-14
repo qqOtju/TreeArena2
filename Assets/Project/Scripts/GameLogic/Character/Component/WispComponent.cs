@@ -5,10 +5,10 @@ namespace Project.Scripts.GameLogic.Character.Component
 {
     public abstract class WispComponent
     {
-        public abstract void OnHealthHit(Bullet bullet, IHealth health);
+        public abstract void OnEnemyHit(Bullet bullet, IEnemyHealth health);
         public abstract void OnWallHit(Bullet bullet);
         public abstract void MoveForward(Bullet bullet);
-        public abstract void OnTargetDeath(Bullet bullet, IHealth health);
+        public abstract void OnEnemyDeath(Bullet bullet, IEnemyHealth health);
         public abstract Bullet ConfigBullet(Bullet bullet);
         public abstract void Shoot();
     } 

@@ -1,6 +1,7 @@
 ﻿using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
+using Project.Scripts.Module.Stats;
 
 namespace Project.Scripts.GameLogic.Character.Decorator
 {
@@ -13,12 +14,12 @@ namespace Project.Scripts.GameLogic.Character.Decorator
             Component = component;
         }
         
-        public override void OnHealthHit(Bullet bullet, IHealth health)
+        public override void OnEnemyHit(Bullet bullet, IEnemyHealth health)
         {
-            Component.OnHealthHit(bullet, health);
+            Component.OnEnemyHit(bullet, health);
             //ToDo: be cautious with this line, may cause problems
             if(health.LastHealthChangeArgs.Type == HeathChangeType.Death)
-                OnTargetDeath(bullet, health);
+                OnEnemyDeath(bullet, health);
         }
 
         public override void OnWallHit(Bullet bullet)
@@ -31,9 +32,9 @@ namespace Project.Scripts.GameLogic.Character.Decorator
             Component.MoveForward(bullet);
         }
 
-        public override void OnTargetDeath(Bullet bullet, IHealth health)
+        public override void OnEnemyDeath(Bullet bullet, IEnemyHealth health)
         {
-            Component.OnTargetDeath(bullet, health);
+            Component.OnEnemyDeath(bullet, health);
         }
 
         public override Bullet ConfigBullet(Bullet bullet)

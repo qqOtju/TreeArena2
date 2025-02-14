@@ -2,6 +2,7 @@
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Stats;
 using UnityEngine;
 using LogType = Project.Scripts.Debug.LogType;
 
@@ -13,13 +14,13 @@ namespace Project.Scripts.GameLogic.Character.Decorator
         private readonly BulletFactory _bulletFactory;
 
         public WispDecoratorDoubleAttack(BulletFactory bulletFactory, Transform bulletSpawnPoint,
-            WispComponent component): base(component)
+            WispComponent component, WispStats wispStats): base(component)
         {
             DebugSystem.Instance.Log(LogType.WispComponent, 
                 $"<color=yellow>Double attack decorator added!</color>");
             _bulletSpawnPoint = bulletSpawnPoint;
             _bulletFactory = bulletFactory;
-            var args = new BulletActionsArgs(OnHealthHit, OnWallHit, MoveForward, 2);
+            var args = new BulletActionsArgs(OnEnemyHit, OnWallHit, MoveForward, wispStats.Piercing);
             _bulletFactory.SetActions(args);
             _bulletFactory.SetConfigBulletFunc(ConfigBullet);
         }

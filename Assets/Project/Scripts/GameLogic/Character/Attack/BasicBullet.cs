@@ -31,10 +31,10 @@ namespace Project.Scripts.GameLogic.Character.Attack
         {
             if(gameObject.activeSelf == false)
                 return;
-            if (other.gameObject.CompareTag("Health"))
+            if (other.gameObject.CompareTag("Enemy"))
             {
                 CurrentPiercing--;
-                Args.OnHealthHit?.Invoke(this, other.gameObject.GetComponent<IHealth>());
+                Args.OnEnemyHit?.Invoke(this, other.gameObject.GetComponent<IEnemyHealth>());
             }
             else if(other.gameObject.CompareTag("Wall"))
                 Args.OnWallHit?.Invoke(this);

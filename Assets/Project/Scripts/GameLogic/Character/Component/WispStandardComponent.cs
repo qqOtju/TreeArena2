@@ -1,48 +1,86 @@
-﻿using Project.Scripts.Debug;
+﻿using System;
+using Project.Scripts.Debug;
 using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Stats;
 using UnityEngine;
 using LogType = Project.Scripts.Debug.LogType;
+using Random = UnityEngine.Random;
 
 namespace Project.Scripts.GameLogic.Character.Component
 {
     public class WispStandardComponent: WispComponent
     {
-        private const int Damage = 50;
-        private const int Piercing = 1;
+        protected readonly BulletFactory BulletFactory;
+        protected readonly Transform BulletSpawnPoint;
+        protected readonly WispStats WispStats;
         
-        private readonly BulletFactory _bulletFactory;
-        private readonly Transform _bulletSpawnPoint;
-        
-        public WispStandardComponent(BulletFactory bulletFactory, Transform bulletSpawnPoint)
+        public WispStandardComponent(BulletFactory bulletFactory, Transform bulletSpawnPoint, WispStats wispStats)
         {
-            _bulletFactory = bulletFactory;
-            _bulletSpawnPoint = bulletSpawnPoint;
-            var args = new BulletActionsArgs(OnHealthHit, OnWallHit, MoveForward, Piercing);
-            _bulletFactory.SetActions(args);
-            _bulletFactory.SetConfigBulletFunc(ConfigBullet);
+            BulletFactory = bulletFactory;
+            BulletSpawnPoint = bulletSpawnPoint;
+            WispStats = wispStats;
+            var args = new BulletActionsArgs(OnEnemyHit, OnWallHit, MoveForward, WispStats.Piercing);
+            BulletFactory.SetActions(args);
+            BulletFactory.SetConfigBulletFunc(ConfigBullet);
         }
 
+        //ToDo: implement crit, elite, boss damage
         //ToDo: Keep in mind that you need to check if the bullet is still alive in additional decorators
-        public override void OnHealthHit(Bullet bullet, IHealth health)
+        public override void OnEnemyHit(Bullet bullet, IEnemyHealth health)
         {
-            DebugSystem.Instance.Log(LogType.WispComponent, "Bullet <color=red>hit</color> target!");
-            health.TakeDamage(Damage);
+            var random = Random.Range(0, 100);
+            if (random <= WispStats.CriticalChance)
+            {
+                DebugSystem.Instance.Log(LogType.WispComponent, "Bullet <color=yellow>critically</color> hit target!");
+                switch (health.Type)
+                {
+                    case EnemyType.Basic:
+                        health.TakeDamage(WispStats.DamageWithCrit);
+                        break;
+                    case EnemyType.Elite:
+                        health.TakeDamage(WispStats.DamageWithCritAndElite);
+                        break;
+                    case EnemyType.Boss:
+                        health.TakeDamage(WispStats.DamageWithCritAndBoss);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            else
+            {
+                DebugSystem.Instance.Log(LogType.WispComponent, "Bullet hit target!");
+                switch (health.Type)
+                {
+                    case EnemyType.Basic:
+                        health.TakeDamage(WispStats.Damage);
+                        break;
+                    case EnemyType.Elite:
+                        health.TakeDamage(WispStats.DamageWithElite);
+                        break;
+                    case EnemyType.Boss:
+                        health.TakeDamage(WispStats.DamageWithBoss);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
             if(bullet.CurrentPiercing <= 0)
-                _bulletFactory.Release(bullet);
+                BulletFactory.Release(bullet);
         }
 
         public override void OnWallHit(Bullet bullet)
         {
-            _bulletFactory.Release(bullet);
+            BulletFactory.Release(bullet);
         }
 
         public override void MoveForward(Bullet bullet)
         {
             if (bullet.CurrenDistance <= 0)
             {
-                _bulletFactory.Release(bullet);
+                BulletFactory.Release(bullet);
                 return;
             }
             var tr = bullet.gameObject.transform;
@@ -51,7 +89,7 @@ namespace Project.Scripts.GameLogic.Character.Component
             rb.MovePosition(moveForce);
         }
 
-        public override void OnTargetDeath(Bullet bullet, IHealth health)
+        public override void OnEnemyDeath(Bullet bullet, IEnemyHealth health)
         {
             DebugSystem.Instance.Log(LogType.WispComponent, "Bullet <color=red>killed</color> target!");
         }
@@ -59,14 +97,14 @@ namespace Project.Scripts.GameLogic.Character.Component
         public override Bullet ConfigBullet(Bullet bullet)
         {
             bullet.transform.rotation = Quaternion.Euler(
-                new Vector3(0,0, _bulletSpawnPoint.localRotation.eulerAngles.z));
+                new Vector3(0,0, BulletSpawnPoint.localRotation.eulerAngles.z));
             return bullet;
         }
 
         public override void Shoot()
         {
             DebugSystem.Instance.Log(LogType.WispComponent, "<color=green>Shoot</color>!");
-            _bulletFactory.Get();
+            BulletFactory.Get();
         }
     }
 }

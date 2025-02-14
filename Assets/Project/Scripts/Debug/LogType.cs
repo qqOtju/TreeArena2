@@ -3,11 +3,9 @@
     public enum LogType
     {
         All,
-        General,
-        Info,
         WispComponent,
         Wisp,
-        Enemy,
         Entity,
+        WispStats,
     }
 }

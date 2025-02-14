@@ -649,11 +649,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _decoratorFactory: {fileID: 527667299}
---- !u!1 &1503521765 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2475469126687388426, guid: f507bee94d727df47aa85ceb45e4a795, type: 3}
+  _wispData: {fileID: 11400000, guid: 3dc3e331d6386db47a30e443053a59d0, type: 2}
+--- !u!114 &1503521766 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2296386733225343683, guid: f507bee94d727df47aa85ceb45e4a795, type: 3}
   m_PrefabInstance: {fileID: 4522921267333313785}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a593304fec940d59e422b8d1a258a79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1523103640
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,7 +690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e765e8a2c0814286b6f82cc98640500e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _wispObject: {fileID: 1503521765}
+  _wispObject: {fileID: 1503521766}
 --- !u!4 &1523103642
 Transform:
   m_ObjectHideFlags: 0

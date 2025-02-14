@@ -3,6 +3,7 @@ using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Stats;
 using UnityEngine;
 using LogType = Project.Scripts.Debug.LogType;
 
@@ -12,19 +13,19 @@ namespace Project.Scripts.GameLogic.Character.Decorator
     {
         private readonly BulletFactory _bulletFactory;
         
-        public WispDecoratorBulletsOnTargetDeath(WispComponent component, BulletFactory bulletFactory) : base(component)
+        public WispDecoratorBulletsOnTargetDeath(WispComponent component, BulletFactory bulletFactory, WispStats wispStats) : base(component)
         {
             DebugSystem.Instance.Log(LogType.WispComponent, 
                 $"<color=yellow>Bullets on target death decorator added!</color>");
             _bulletFactory = bulletFactory;
-            var args = new BulletActionsArgs(OnHealthHit, OnWallHit, MoveForward, 1);
+            var args = new BulletActionsArgs(OnEnemyHit, OnWallHit, MoveForward, wispStats.Piercing);
             _bulletFactory.SetActions(args);
             _bulletFactory.SetConfigBulletFunc(ConfigBullet);
         }
 
-        public override void OnTargetDeath(Bullet bullet, IHealth health)
+        public override void OnEnemyDeath(Bullet bullet, IEnemyHealth health)
         {
-            base.OnTargetDeath(bullet, health);
+            base.OnEnemyDeath(bullet, health);
             DebugSystem.Instance.Log(LogType.WispComponent, 
                 "Bullets <color=green>on target death</color>!");
             var bulletLeft = _bulletFactory.Get();

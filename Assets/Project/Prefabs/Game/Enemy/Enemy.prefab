@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7225637390465039016}
   m_Layer: 6
   m_Name: Enemy
-  m_TagString: Health
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 0
+  _type: 2
 --- !u!50 &6906810295071093875
 Rigidbody2D:
   serializedVersion: 5

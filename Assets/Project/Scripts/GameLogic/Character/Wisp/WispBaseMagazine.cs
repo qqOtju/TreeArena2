@@ -3,46 +3,46 @@ using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Stats;
 using UnityEngine;
 using Zenject;
 using LogType = Project.Scripts.Debug.LogType;
 
 namespace Project.Scripts.GameLogic.Character.Wisp
 {
-    public class WispMagazine: MonoBehaviour, IWisp
+    public class WispBaseMagazine: WispBase
     {
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private Bullet _bulletPrefab;
         [SerializeField] private Transform _bulletContainer;
 
-        private const float AttackSpeed = 0.5f;
         private const int MagazineSize = 10;
         private const float ReloadTime = 2f;
 
         private WispDecoratorFactory _wispDecoratorFactory;
         private WispDecorator _wispDecorator;
         private DiContainer _diContainer;
+        private WispStats _wispStats;
         private Camera _mainCamera;
         private float _attackTimer;
         private int _currentMagazineSize;
         private float _reloadTimer;
         private bool _isReloading;
 
-        public Transform BulletSpawnPoint => _bulletSpawnPoint;
-        public BulletFactory BulletFactory { get; private set; }
-
         [Inject]
-        private void Construct(DiContainer diContainer, WispDecoratorFactory wispDecoratorFactory)
+        private void Construct(DiContainer diContainer, WispDecoratorFactory wispDecoratorFactory, WispStats wispStats)
         {
             _diContainer = diContainer;
             _wispDecoratorFactory = wispDecoratorFactory;
+            _wispStats = wispStats;
         }
         
         private void Start()
         {
             _mainCamera = Camera.main;
             BulletFactory = new BulletFactory(_bulletPrefab, _bulletContainer, _diContainer, _bulletSpawnPoint);
-            _wispDecorator = new WispDecoratorStandard(new WispStandardComponent(BulletFactory, _bulletSpawnPoint), BulletFactory, _bulletSpawnPoint);
+            BulletSpawnPoint = _bulletSpawnPoint;
+            _wispDecorator = new WispDecoratorStandard(new WispStandardComponent(BulletFactory, _bulletSpawnPoint, _wispStats), BulletFactory, _bulletSpawnPoint);
             _currentMagazineSize = MagazineSize;
         }
         
@@ -59,7 +59,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
         private void Attack()
         {
             _attackTimer += Time.deltaTime;
-            if (_attackTimer >= AttackSpeed)
+            if (_attackTimer >= _wispStats.AttackSpeed)
             {
                 _currentMagazineSize--;
                 DebugSystem.Instance.Log(LogType.Wisp, 
@@ -96,7 +96,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             _bulletSpawnPoint.localRotation = Quaternion.Euler(0, 0, targetAngle);
         }
         
-        public void AddDecorator<T>() where T: WispDecorator
+        public override void AddDecorator<T>()
         {
             DebugSystem.Instance.Log(LogType.Wisp, "Decorator set!");
             _wispDecorator = _wispDecoratorFactory.CreateDecorator<T>(this, _wispDecorator);

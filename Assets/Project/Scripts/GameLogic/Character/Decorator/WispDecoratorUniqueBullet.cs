@@ -3,6 +3,7 @@ using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Stats;
 using UnityEngine;
 using LogType = Project.Scripts.Debug.LogType;
 
@@ -19,17 +20,18 @@ namespace Project.Scripts.GameLogic.Character.Decorator
         private int _currentShot;
         
         public WispDecoratorUniqueBullet(WispComponent component, 
-            BulletFactory baseFactory, Transform spawnPoint, BulletFactory uniqueFactory) : base(component)
+            BulletFactory baseFactory, Transform spawnPoint, BulletFactory uniqueFactory, WispStats wispStats) : base(component)
         {
             DebugSystem.Instance.Log(LogType.WispComponent, $"<color=yellow>Unique bullet decorator added!</color>");
             _uniqueFactory = uniqueFactory;
             _spawnPoint = spawnPoint;
-            var args = new BulletActionsArgs(OnHealthHit, OnWallHit, MoveForward, 1);
+            var args = new BulletActionsArgs(OnEnemyHit, OnWallHit, MoveForward, wispStats.Piercing);
             baseFactory.SetActions(args);
-            var uniqueArgs = new BulletActionsArgs(UniqueOnHealthHit, OnWallHit, UniqueMoveForward, 1);
+            var uniqueArgs = new BulletActionsArgs(UniqueOnHealthHit, OnWallHit, UniqueMoveForward, 0);
             _uniqueFactory.SetActions(uniqueArgs);
         }
 
+        //ToDo: made damage in this method with WispStats and critical
         private void UniqueOnHealthHit(Bullet bullet, IHealth health)
         {
             health.TakeDamage(UniqueDamage);
@@ -43,7 +45,6 @@ namespace Project.Scripts.GameLogic.Character.Decorator
                 _uniqueFactory.Release(bullet);
                 return;
             }
-
             var tr = bullet.gameObject.transform;
             var rb = bullet.Rb;
             var forwardDirection = tr.right * 0.2f; // Швидкість руху вперед
@@ -64,8 +65,9 @@ namespace Project.Scripts.GameLogic.Character.Decorator
                 DebugSystem.Instance.Log(LogType.WispComponent, $"<color=yellow>Unique attack!</color>");
                 _currentShot = 0;
                 var bullet = _uniqueFactory.Get();
+                var randomAngle = Random.Range(-7, 7);
                 bullet.transform.rotation = Quaternion.Euler(
-                    new Vector3(0,0, _spawnPoint.localRotation.eulerAngles.z));
+                    new Vector3(0,0, _spawnPoint.localRotation.eulerAngles.z + randomAngle));
             }
         }
     }
