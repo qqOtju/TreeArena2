@@ -2,7 +2,6 @@
 
 namespace Project.Scripts.Module.Stats
 {        
-    //ToDo: Change formulas to calculate stats
     public class WispStats
     {
         private readonly WispConfig _config;

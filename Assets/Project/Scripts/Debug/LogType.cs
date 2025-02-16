@@ -7,5 +7,7 @@
         Wisp,
         Entity,
         WispStats,
+        Tree,
+        TreeStats,
     }
 }

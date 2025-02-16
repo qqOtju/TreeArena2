@@ -1,21 +1,26 @@
-﻿using Project.Scripts.Config.Wisp;
+﻿using Project.Scripts.Config.Tree;
+using Project.Scripts.Config.Wisp;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.GameLogic.Character.Wisp;
 using UnityEngine;
 using Zenject;
+using Tree = Project.Scripts.GameLogic.Character.Tree;
 
 namespace Project.Scripts.GameLogic.Test
 {
     public class DecoratorTest: MonoBehaviour
     {
         [SerializeField] private WispBase _wispObject;
+        [SerializeField] private Tree _treeObject;
         
         private WispBonuses _bonuses;
+        private TreeBonuses _treeBonuses;
 
         [Inject]
-        private void Construct(WispBonuses bonuses)
+        private void Construct(WispBonuses bonuses, TreeBonuses treeBonuses)
         {
             _bonuses = bonuses;
+            _treeBonuses = treeBonuses;
         }
 
         private void Update()
@@ -44,6 +49,16 @@ namespace Project.Scripts.GameLogic.Test
                 AddCriticalChance();
             if (Input.GetKeyDown(KeyCode.R))
                 AddCriticalDamage();
+            if(Input.GetKeyDown(KeyCode.Keypad1))
+                DamageTree();
+            if(Input.GetKeyDown(KeyCode.Keypad7))
+                AddMaxHealth();
+            if(Input.GetKeyDown(KeyCode.Keypad8))
+                AddRegen();
+            if(Input.GetKeyDown(KeyCode.Keypad9))
+                AddArmor();
+            if(Input.GetKeyDown(KeyCode.Keypad4))
+                AddAbsorption();
         }
 
         private void DoubleAttack()
@@ -104,6 +119,31 @@ namespace Project.Scripts.GameLogic.Test
         private void AddCriticalDamage()
         {
             _bonuses.CriticalDamage += 10f;
+        }
+        
+        private void DamageTree()
+        {
+            _treeObject.TakeDamage(50);
+        }
+        
+        private void AddMaxHealth()
+        {
+            _treeBonuses.MaxHealth += 10;
+        }
+        
+        private void AddRegen()
+        {
+            _treeBonuses.Regen += 10;
+        }
+        
+        private void AddArmor()
+        {
+            _treeBonuses.Armor += 10;
+        }
+        
+        private void AddAbsorption()
+        {
+            _treeBonuses.Absorption += 10;
         }
     }
 }

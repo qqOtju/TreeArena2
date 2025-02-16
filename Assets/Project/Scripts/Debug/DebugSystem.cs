@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace Project.Scripts.Debug
 {
+    //ToDo: замінити спавн окремих повідомлень на один текст з усіма повідомленнями
     public class DebugSystem: MonoBehaviour
     {
         [Title("Settings")]
