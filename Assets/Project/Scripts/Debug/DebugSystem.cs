@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Project.Scripts.DesignPattern.Pool;
+using System.Text;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -8,40 +8,41 @@ using UnityEngine.UI;
 
 namespace Project.Scripts.Debug
 {
-    //ToDo: замінити спавн окремих повідомлень на один текст з усіма повідомленнями
+    //ToDo: зробити #if (DEVELOPMENT_BUILD || UNITY_EDITOR) всюди де використовую DebugSystem.Instance.Log    
     public class DebugSystem: MonoBehaviour
     {
         [Title("Settings")]
         [SerializeField] private bool _logToConsole;
         [SerializeField] private bool _scrollToBottom;
         [Title("Window")]
+        [SerializeField] private TMP_Text _logText;
         [SerializeField] private RectTransform _windowRect;
+        [SerializeField] private ScrollRect _scrollRect;
         [Title("Type")]
         [SerializeField] private Button _typeButtonPrefab;
         [SerializeField] private Transform _typeButtonParent;
-        [Title("Log")]
-        [SerializeField] private TMP_Text _logTextPrefab;
-        [SerializeField] private Transform _logTextParent;
-        [SerializeField] private ScrollRect _scrollRect;
         [Title("Buttons")]
         [SerializeField] private Button _pauseButton;
         [SerializeField] private Button _logToFileButton;
         [SerializeField] private Button _toggleWindowSizeButton;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _openButton;
+        [SerializeField] private Button _limitLogEntriesButton;
         
+        private const int MaxLogEntries = 30;
         private const string LogFileName = "log.txt";
         
         private Vector2 _originalAnchoredPosition;
+        private StringBuilder _logBuilder = new StringBuilder();
         private Vector2 _originalSizeDelta;
         private Vector2 _originalMinAnchor;
         private Vector2 _originalMaxAnchor;
         private bool _isMaximized = false;
         private Dictionary<LogType, Log> _logs = new ();
-        private List<TMP_Text> _logTexts = new ();
-        private MonoBehaviourPool<TMP_Text> _logTextPool;
         private bool _isPaused;
         private LogType _currentLogType;
+        private int _currentLines;
+        private bool _limitLogEntries = false;
 
         public static DebugSystem Instance { get; private set; }
 
@@ -62,13 +63,12 @@ namespace Project.Scripts.Debug
             _toggleWindowSizeButton.onClick.AddListener(ToggleWindowSize);
             _closeButton.onClick.AddListener(Close);
             _openButton.onClick.AddListener(Open);
-            
-            _logTextPool = new MonoBehaviourPool<TMP_Text>(_logTextPrefab, _logTextParent);
-            _logTextPool.Initialize(20);
+            _limitLogEntriesButton.onClick.AddListener(SetLimitLogEntries);
             _originalAnchoredPosition = _windowRect.anchoredPosition;
             _originalSizeDelta = _windowRect.sizeDelta;
             _originalMinAnchor = _windowRect.anchorMin;
             _originalMaxAnchor = _windowRect.anchorMax;
+            SetLimitLogEntries();
         }
 
         private void OnDestroy()
@@ -79,6 +79,14 @@ namespace Project.Scripts.Debug
             _toggleWindowSizeButton.onClick.RemoveAllListeners();
             _closeButton.onClick.RemoveAllListeners();
             _openButton.onClick.RemoveAllListeners();
+            _limitLogEntriesButton.onClick.RemoveAllListeners();
+        }
+
+        private void SetLimitLogEntries()
+        {
+            _limitLogEntries = !_limitLogEntries;
+            var image = _limitLogEntriesButton.GetComponentInChildren<Image>();
+            image.color = _limitLogEntries ? Color.green : Color.red;
         }
 
         private void Close()
@@ -150,26 +158,30 @@ namespace Project.Scripts.Debug
         private void OnLogButtonClicked(LogType logType)
         {
             _currentLogType = logType;
-            _logTextPrefab.text = "";
-            foreach (var text in _logTexts)
-                _logTextPool.Release(text);
-            _logTexts.Clear();
+            _logBuilder.Clear();
+            _logText.SetText("");
+            _currentLines = 0;
             foreach (var message in _logs[logType].Messages)
             {
                 var logMessage = message;
-                var text = CreateLogText(logMessage);
-                _logTexts.Add(text);
+                CreateLogText(logMessage);
             }
             if(_scrollToBottom)
                 ScrollToBottom();
         }
         
-        private TMP_Text CreateLogText(LogMessage message)
+        private void CreateLogText(LogMessage message)
         {
-            var text = _logTextPool.Get();
-            text.text = $"[{message.Time:HH:mm:ss}] {message.Message}";
-            text.transform.SetAsLastSibling();
-            return text;
+            var newLine = $"[{message.Time:HH:mm:ss}] {message.Message}";
+            _logBuilder.AppendLine(newLine);
+            _currentLines++;
+            if (_currentLines > MaxLogEntries && _limitLogEntries)
+            {
+                var index = _logBuilder.ToString().IndexOf('\n') + 1;
+                _logBuilder.Remove(0, index);
+                _currentLines--;
+            }
+            _logText.SetText(_logBuilder);
         }
         
         private void ScrollToBottom()
@@ -189,8 +201,7 @@ namespace Project.Scripts.Debug
             if(logType == _currentLogType || _currentLogType == LogType.All)
             {
                 var logMessage = _logs[logType].Messages[^1];
-                var text = CreateLogText(logMessage);
-                _logTexts.Add(text);
+                CreateLogText(logMessage);
             }
             if(_scrollToBottom)
                 ScrollToBottom();

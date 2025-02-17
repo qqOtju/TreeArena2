@@ -27,12 +27,14 @@ namespace Project.Scripts.GameLogic.Enemy
             var range = 0.8f;
             _targetPosition = target.position + new Vector3(Random.Range(-range, range), Random.Range(-range, range), 0);
             SetInitialHealth(_enemyValue.MaxHealth);
+            #if (DEVELOPMENT_BUILD || UNITY_EDITOR)
             DebugSystem.Instance.Log(LogType.Enemy, $"Enemy {gameObject.name} initialized with \n" +
                                                    $"MaxHealth: {_enemyValue.MaxHealth} \n" +
                                                    $"Speed: {_enemyValue.MoveSpeed} \n" +
                                                    $"Damage: {_enemyValue.Damage} \n" +
                                                    $"AttackSpeed: {_enemyValue.AttackSpeed} \n" +
                                                    $"AttackRange: {_enemyValue.AttackRange} \n");
+            #endif
         }
 
         private void Awake()
