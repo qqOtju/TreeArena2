@@ -1,7 +1,10 @@
-﻿using Project.Scripts.Config.Tree;
-using Project.Scripts.Config.Wisp;
+﻿using Project.Scripts.Config.Enemy;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.GameLogic.Character.Wisp;
+using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Stats.Enemy;
+using Project.Scripts.Module.Stats.Tree;
+using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using Zenject;
 using Tree = Project.Scripts.GameLogic.Character.Tree;
@@ -12,15 +15,21 @@ namespace Project.Scripts.GameLogic.Test
     {
         [SerializeField] private WispBase _wispObject;
         [SerializeField] private Tree _treeObject;
+        [SerializeField] private EnemyData _enemyData;
         
         private WispBonuses _bonuses;
         private TreeBonuses _treeBonuses;
+        private EnemyFactory _enemyFactory;
+        private EnemyBonuses _enemyBonuses;
 
         [Inject]
-        private void Construct(WispBonuses bonuses, TreeBonuses treeBonuses)
+        private void Construct(WispBonuses wispBonuses, TreeBonuses treeBonuses, 
+            EnemyFactory enemyFactory, EnemyBonuses enemyBonuses)
         {
-            _bonuses = bonuses;
+            _bonuses = wispBonuses;
             _treeBonuses = treeBonuses;
+            _enemyFactory = enemyFactory;
+            _enemyBonuses = enemyBonuses;
         }
 
         private void Update()
@@ -59,6 +68,12 @@ namespace Project.Scripts.GameLogic.Test
                 AddArmor();
             if(Input.GetKeyDown(KeyCode.Keypad4))
                 AddAbsorption();
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+                SpawnEnemy();
+            if(Input.GetKeyDown(KeyCode.Alpha2))
+                AddEnemyHealth();
+            if(Input.GetKeyDown(KeyCode.Alpha3))
+                AddEnemyDamage();
         }
 
         private void DoubleAttack()
@@ -144,6 +159,22 @@ namespace Project.Scripts.GameLogic.Test
         private void AddAbsorption()
         {
             _treeBonuses.Absorption += 10;
+        }
+
+        private void SpawnEnemy()
+        {
+            var enemy = _enemyFactory.Get(_enemyData);
+            enemy.transform.position = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+        }
+
+        private void AddEnemyHealth()
+        {
+            _enemyBonuses.MaxHealth += 50;
+        }
+
+        private void AddEnemyDamage()
+        {
+            _enemyBonuses.Damage += 10;
         }
     }
 }

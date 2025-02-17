@@ -2,8 +2,10 @@
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.GameLogic.Character.Decorator;
+using Project.Scripts.GameLogic.Movement;
 using Project.Scripts.Module.Factory;
 using Project.Scripts.Module.Stats;
+using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using Zenject;
 using LogType = Project.Scripts.Debug.LogType;
@@ -11,7 +13,7 @@ using LogType = Project.Scripts.Debug.LogType;
 namespace Project.Scripts.GameLogic.Character.Wisp
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class WispBaseWalker: WispBase
+    public class WispWalker: WispBase
     {
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private Bullet _bulletPrefab;
@@ -45,7 +47,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             _mainCamera = Camera.main;
             BulletFactory = new BulletFactory(_bulletPrefab, _bulletContainer, _diContainer, _bulletSpawnPoint);
             BulletSpawnPoint = _bulletSpawnPoint;
-            _wispDecorator = new WispDecoratorStandard(new WispStandardComponent(BulletFactory, _bulletSpawnPoint, _wispStats), BulletFactory, _bulletSpawnPoint);
+            _wispDecorator = new WispDecoratorStandard(new WispComponentStandard(BulletFactory, _bulletSpawnPoint, _wispStats), BulletFactory, _bulletSpawnPoint);
         }
         
         private void Update()

@@ -4,6 +4,7 @@ using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.GameLogic.Character.Wisp;
 using Project.Scripts.Module.Stats;
+using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using Zenject;
 

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Tree Config
   m_EditorClassIdentifier: 
   _maxHealth: 1000
-  _regen: 3
+  _regen: 10
   _armor: 300
   _absorption: 0

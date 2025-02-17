@@ -9,5 +9,7 @@
         WispStats,
         Tree,
         TreeStats,
+        Enemy,
+        Bullet,
     }
 }

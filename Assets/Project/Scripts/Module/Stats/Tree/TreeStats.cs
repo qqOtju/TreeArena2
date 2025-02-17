@@ -1,6 +1,6 @@
 ﻿using Project.Scripts.Config.Tree;
 
-namespace Project.Scripts.Module.Stats
+namespace Project.Scripts.Module.Stats.Tree
 {
     public class TreeStats
     {

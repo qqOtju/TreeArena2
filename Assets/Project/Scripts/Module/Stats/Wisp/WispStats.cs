@@ -1,6 +1,6 @@
 ﻿using Project.Scripts.Config.Wisp;
 
-namespace Project.Scripts.Module.Stats
+namespace Project.Scripts.Module.Stats.Wisp
 {        
     public class WispStats
     {

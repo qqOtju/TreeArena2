@@ -13,10 +13,10 @@ namespace Project.Scripts.Module.Factory
         private const int BasePoolSize = 10;
         
         private readonly DiContainer _diContainer;
+        private readonly Transform _muzzle;
 
-        public Func<Bullet, Bullet> ConfigBulletFunc;
+        private Func<Bullet, Bullet> _configBulletFunc;
         private BulletActionsArgs _args;
-        private Transform _muzzle;
 
         public BulletFactory(Bullet prefab, Transform container, 
             DiContainer diContainer, Transform muzzle) : base(prefab, container)
@@ -32,7 +32,7 @@ namespace Project.Scripts.Module.Factory
             bullet.transform.position = _muzzle.position;
             bullet.Init(_args);
             _diContainer.Inject(bullet);
-            ConfigBulletFunc?.Invoke(bullet);
+            _configBulletFunc?.Invoke(bullet);
             return bullet;
         }
 
@@ -48,7 +48,7 @@ namespace Project.Scripts.Module.Factory
         
         public void SetConfigBulletFunc(Func<Bullet, Bullet> func)
         {
-            ConfigBulletFunc = func;
+            _configBulletFunc = func;
         }
     }
 }

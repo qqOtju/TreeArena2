@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Scripts.Entity;
 using Project.Scripts.Module.Stats;
+using Project.Scripts.Module.Stats.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;

@@ -3,6 +3,7 @@ using Project.Scripts.Config.Tree;
 using Project.Scripts.Debug;
 using Project.Scripts.Entity;
 using Project.Scripts.Module.Stats;
+using Project.Scripts.Module.Stats.Tree;
 using UnityEngine;
 using Zenject;
 using LogType = Project.Scripts.Debug.LogType;

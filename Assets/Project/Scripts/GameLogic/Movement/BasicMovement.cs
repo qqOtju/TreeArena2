@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Project.Scripts.GameLogic.Character
+namespace Project.Scripts.GameLogic.Movement
 {
     public class BasicMovement: ObjectMovement
     {

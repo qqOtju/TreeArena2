@@ -1,7 +1,7 @@
 ﻿using System;
 using Project.Scripts.Debug;
 
-namespace Project.Scripts.Config.Tree
+namespace Project.Scripts.Module.Stats.Tree
 {
     public class TreeBonuses
     {

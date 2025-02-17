@@ -1,9 +1,13 @@
 ﻿using Project.Scripts.Config.Tree;
 using Project.Scripts.Config.Wisp;
+using Project.Scripts.GameLogic.Enemy;
 using Project.Scripts.Module.Factory;
-using Project.Scripts.Module.Stats;
+using Project.Scripts.Module.Stats.Enemy;
+using Project.Scripts.Module.Stats.Tree;
+using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using Zenject;
+using Tree = Project.Scripts.GameLogic.Character.Tree;
 
 namespace Project.Scripts.Infrastructure
 {
@@ -12,12 +16,18 @@ namespace Project.Scripts.Infrastructure
         [SerializeField] private WispDecoratorFactory _decoratorFactory;
         [SerializeField] private WispData _wispData;
         [SerializeField] private TreeConfig _treeConfig;
+        [SerializeField] private Transform _enemyContainer;
+        [SerializeField] private Tree _tree;
+        
+        private EnemyBonuses _enemyBonuses;
         
         public override void InstallBindings()
         {
             BindDecoratorFactory();
             BindWispStats();
             BindTreeStats();
+            BindEnemyBonuses();
+            BindEnemyFactory();
         }
 
         private void BindDecoratorFactory()
@@ -39,6 +49,18 @@ namespace Project.Scripts.Infrastructure
             Container.Bind<TreeBonuses>().FromInstance(treeBonuses).AsSingle();
             var treeStats = new TreeStats(_treeConfig, treeBonuses);
             Container.Bind<TreeStats>().FromInstance(treeStats).AsSingle();
+        }
+
+        private void BindEnemyBonuses()
+        {
+            _enemyBonuses = new EnemyBonuses();
+            Container.Bind<EnemyBonuses>().FromInstance(_enemyBonuses).AsSingle();
+        }
+
+        private void BindEnemyFactory()
+        {
+            var enemyFactory = new EnemyFactory(_enemyContainer, _enemyBonuses, Container, _tree);
+            Container.Bind<EnemyFactory>().FromInstance(enemyFactory).AsSingle();
         }
     }
 }

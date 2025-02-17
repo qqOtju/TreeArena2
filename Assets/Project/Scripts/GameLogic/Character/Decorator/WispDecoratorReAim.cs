@@ -5,6 +5,7 @@ using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.Module.Factory;
 using Project.Scripts.Module.Stats;
+using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using LogType = Project.Scripts.Debug.LogType;
 

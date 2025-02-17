@@ -1,18 +1,17 @@
-﻿using Project.Scripts.Config.Wisp;
-using Project.Scripts.Debug;
+﻿using Project.Scripts.Debug;
 using Project.Scripts.DesignPattern.FSM;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.Module.Factory;
-using Project.Scripts.Module.Stats;
+using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using Zenject;
 using LogType = Project.Scripts.Debug.LogType;
 
 namespace Project.Scripts.GameLogic.Character.Wisp
 {
-    public class WispBaseMode: WispBase
+    public class WispMode: WispBase
     {
         [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private Bullet _bulletAPrefab;

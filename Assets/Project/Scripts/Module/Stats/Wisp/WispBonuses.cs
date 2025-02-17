@@ -1,7 +1,7 @@
 ﻿using System;
 using Project.Scripts.Debug;
 
-namespace Project.Scripts.Config.Wisp
+namespace Project.Scripts.Module.Stats.Wisp
 {
     public class WispBonuses
     {

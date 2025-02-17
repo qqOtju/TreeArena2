@@ -4,19 +4,20 @@ using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.Module.Factory;
 using Project.Scripts.Module.Stats;
+using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using LogType = Project.Scripts.Debug.LogType;
 using Random = UnityEngine.Random;
 
 namespace Project.Scripts.GameLogic.Character.Component
 {
-    public class WispStandardComponent: WispComponent
+    public class WispComponentStandard: WispComponent
     {
         protected readonly BulletFactory BulletFactory;
         protected readonly Transform BulletSpawnPoint;
         protected readonly WispStats WispStats;
         
-        public WispStandardComponent(BulletFactory bulletFactory, Transform bulletSpawnPoint, WispStats wispStats)
+        public WispComponentStandard(BulletFactory bulletFactory, Transform bulletSpawnPoint, WispStats wispStats)
         {
             BulletFactory = bulletFactory;
             BulletSpawnPoint = bulletSpawnPoint;
@@ -26,7 +27,6 @@ namespace Project.Scripts.GameLogic.Character.Component
             BulletFactory.SetConfigBulletFunc(ConfigBullet);
         }
 
-        //ToDo: implement crit, elite, boss damage
         //ToDo: Keep in mind that you need to check if the bullet is still alive in additional decorators
         public override void OnEnemyHit(Bullet bullet, IEnemyHealth health)
         {
@@ -68,11 +68,15 @@ namespace Project.Scripts.GameLogic.Character.Component
                 }
             }
             if(bullet.CurrentPiercing <= 0)
+            {
+                DebugSystem.Instance.Log(LogType.Bullet, "Bullet <color=red>out of piercing</color>!");
                 BulletFactory.Release(bullet);
+            }
         }
 
         public override void OnWallHit(Bullet bullet)
         {
+            DebugSystem.Instance.Log(LogType.Bullet, "Bullet hit <color=blue>wall</color>!");
             BulletFactory.Release(bullet);
         }
 
@@ -80,10 +84,11 @@ namespace Project.Scripts.GameLogic.Character.Component
         {
             if (bullet.CurrenDistance <= 0)
             {
+                DebugSystem.Instance.Log(LogType.Bullet, "Bullet <color=red>out of range</color>!");
                 BulletFactory.Release(bullet);
                 return;
             }
-            var tr = bullet.gameObject.transform;
+            var tr = bullet.transform;
             var rb = bullet.Rb;
             var moveForce = tr.position + tr.right / 5;
             rb.MovePosition(moveForce);
