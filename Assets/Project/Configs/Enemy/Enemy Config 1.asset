@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 84691ca8097443aeb07fcf24ec0e8da3, type: 3}
-  m_Name: Enemy Config
+  m_Name: Enemy Config 1
   m_EditorClassIdentifier: 
   _value:
     _maxHealth: 10000

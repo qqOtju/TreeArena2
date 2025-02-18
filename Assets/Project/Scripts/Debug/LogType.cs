@@ -11,5 +11,7 @@
         TreeStats,
         Enemy,
         Bullet,
+        EnemySpawner,
+        Wave
     }
 }

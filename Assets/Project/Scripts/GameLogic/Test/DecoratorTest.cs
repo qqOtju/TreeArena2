@@ -1,7 +1,9 @@
 ﻿using Project.Scripts.Config.Enemy;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.GameLogic.Character.Wisp;
+using Project.Scripts.GameLogic.Wave;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.Spawner;
 using Project.Scripts.Module.Stats.Enemy;
 using Project.Scripts.Module.Stats.Tree;
 using Project.Scripts.Module.Stats.Wisp;
@@ -13,6 +15,7 @@ namespace Project.Scripts.GameLogic.Test
 {
     public class DecoratorTest: MonoBehaviour
     {
+        [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private WispBase _wispObject;
         [SerializeField] private Tree _treeObject;
         [SerializeField] private EnemyData _enemyData;
@@ -163,8 +166,7 @@ namespace Project.Scripts.GameLogic.Test
 
         private void SpawnEnemy()
         {
-            var enemy = _enemyFactory.Get(_enemyData);
-            enemy.transform.position = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+            _enemySpawner.SpawnEnemy(SpawnPoint.Left, _enemyData);
         }
 
         private void AddEnemyHealth()

@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 201376aa7cf14c67a0421fc8b36a987f, type: 3}
-  m_Name: Enemy Data
+  m_Name: Enemy Data 2
   m_EditorClassIdentifier: 
   _icon: {fileID: 0}
-  _name: 
+  _name: BBB
   _description: 
-  _enemyPrefab: {fileID: 5320627695528089098, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
-  _enemyConfig: {fileID: 11400000, guid: 38e544a7e1bfbb44fa18244208873011, type: 2}
+  _enemyPrefab: {fileID: 5320627695528089098, guid: 3e432833a7a4dcc45994e4c43eef28a0, type: 3}
+  _enemyConfig: {fileID: 11400000, guid: 745b1ee7c58df79478bb4fa9c870e4ba, type: 2}

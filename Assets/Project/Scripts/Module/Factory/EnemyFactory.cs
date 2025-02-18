@@ -29,6 +29,24 @@ namespace Project.Scripts.Module.Factory
             _tree = tree;
         }
 
+        private void CreatePool(EnemyData enemyData)
+        {
+            var newContainer = new GameObject("Enemy Pool").transform;
+            newContainer.SetParent(_container);
+            var newPool = new MonoBehaviourPool<EnemyBase>(enemyData.EnemyPrefab, newContainer);
+            _pools.Add(enemyData, newPool);
+        }
+
+        private void OnEnemyDeath(EnemyBase obj)
+        {
+            Release(obj);
+        }
+
+        private void Release(EnemyBase obj)
+        {
+            _poolies[obj].Release(obj);
+        }
+
         public EnemyBase Get(EnemyData enemyData)
         {
             _pools.TryGetValue(enemyData, out var pool);
@@ -47,23 +65,10 @@ namespace Project.Scripts.Module.Factory
             enemy.Initialize(stats, _tree.transform);
             return enemy;
         }
-
-        private void CreatePool(EnemyData enemyData)
+        
+        public void SetWaveIndex(int index)
         {
-            var newContainer = new GameObject("Enemy Pool").transform;
-            newContainer.SetParent(_container);
-            var newPool = new MonoBehaviourPool<EnemyBase>(enemyData.EnemyPrefab, newContainer);
-            _pools.Add(enemyData, newPool);
-        }
-
-        private void OnEnemyDeath(EnemyBase obj)
-        {
-            Release(obj);
-        }
-
-        private void Release(EnemyBase obj)
-        {
-            _poolies[obj].Release(obj);
+            _currentWaveIndex = index;
         }
     }
 }
