@@ -1,5 +1,8 @@
 ﻿using Project.Scripts.Config.Tree;
 using Project.Scripts.Config.Wisp;
+using Project.Scripts.GameLogic;
+using Project.Scripts.GameLogic.Character;
+using Project.Scripts.GameLogic.Character.Wisp;
 using Project.Scripts.GameLogic.Enemy;
 using Project.Scripts.Module.Factory;
 using Project.Scripts.Module.Stats.Enemy;
@@ -14,12 +17,21 @@ namespace Project.Scripts.Infrastructure
     public class GameSceneInstaller: MonoInstaller
     {
         [SerializeField] private WispDecoratorFactory _decoratorFactory;
-        [SerializeField] private WispData _wispData;
         [SerializeField] private TreeConfig _treeConfig;
         [SerializeField] private Transform _enemyContainer;
         [SerializeField] private Tree _tree;
+        [SerializeField] private Player _player;
+        [SerializeField] private Transform _bulletContainer;
+        [SerializeField] private WispData _wispData;
         
         private EnemyBonuses _enemyBonuses;
+        private GameData _gameData;
+
+        [Inject]
+        private void Construct(GameData gameData)
+        {
+            _gameData = gameData;
+        }
         
         public override void InstallBindings()
         {
@@ -28,6 +40,7 @@ namespace Project.Scripts.Infrastructure
             BindTreeStats();
             BindEnemyBonuses();
             BindEnemyFactory();
+            BindWisp();
         }
 
         private void BindDecoratorFactory()
@@ -39,7 +52,8 @@ namespace Project.Scripts.Infrastructure
         {
             var wispBonuses = new WispBonuses();
             Container.Bind<WispBonuses>().FromInstance(wispBonuses).AsSingle();
-            var wispStats = new WispStats(_wispData.WispConfig, wispBonuses);
+            var wispConfig = _gameData.ChosenWisp.WispConfig;
+            var wispStats = new WispStats(wispConfig, wispBonuses);
             Container.Bind<WispStats>().FromInstance(wispStats).AsSingle();
         }
 
@@ -61,6 +75,14 @@ namespace Project.Scripts.Infrastructure
         {
             var enemyFactory = new EnemyFactory(_enemyContainer, _enemyBonuses, Container, _tree);
             Container.Bind<EnemyFactory>().FromInstance(enemyFactory).AsSingle();
+        }
+
+        private void BindWisp()
+        {
+            var wispPrefab = _gameData.ChosenWisp.WispPrefab;
+            var wisp = Container.InstantiatePrefab(wispPrefab).GetComponent<WispBase>();
+            wisp.Init(_player.transform, _bulletContainer);
+            Container.Bind<WispBase>().FromInstance(wisp).AsSingle();
         }
     }
 }

@@ -39,6 +39,7 @@ namespace Project.Scripts.Module.Factory
 
         private void OnEnemyDeath(EnemyBase obj)
         {
+            obj.OnDeath -= OnEnemyDeath;
             Release(obj);
         }
 
@@ -62,7 +63,7 @@ namespace Project.Scripts.Module.Factory
             var stats = enemyData.EnemyConfig.Value;
             stats = EnemyValue.GetMultipliedValue(stats ,_currentWaveIndex);
             stats = EnemyValue.GetUpgraded(stats, _enemyBonuses);
-            enemy.Initialize(stats, _tree.transform);
+            enemy.Initialize(stats, _tree);
             return enemy;
         }
         

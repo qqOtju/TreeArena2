@@ -58,7 +58,7 @@ namespace Project.Scripts.Entity
         {
             var args = CreateHealthChangeArgs(CurrentHealth, CurrentHealth + heal, transform.position);
             CurrentHealth += heal;
-            DebugSystem.Instance.Log(LogType.Entity, $"{gameObject.name} heals <color=green>{heal}</color> | {CurrentHealth}/{MaxHealth}");
+            //DebugSystem.Instance.Log(LogType.Entity, $"{gameObject.name} heals <color=green>{heal}</color> | {CurrentHealth}/{MaxHealth}");
         }
         
         public virtual void IncreaseMaxHealth(int value)

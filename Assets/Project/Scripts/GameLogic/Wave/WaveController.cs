@@ -4,6 +4,7 @@ using Project.Scripts.Config.Wave;
 using Project.Scripts.Debug;
 using Project.Scripts.Module.Factory;
 using Project.Scripts.Module.Spawner;
+using Project.Scripts.UI.Game;
 using UnityEngine;
 using Zenject;
 using LogType = Project.Scripts.Debug.LogType;
@@ -15,6 +16,7 @@ namespace Project.Scripts.GameLogic.Wave
     {
         [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private WaveConfig[] _waveConfigs;
+        [SerializeField] private UITreeUpgrade _treeUpgrade;
         
         private EnemyFactory _enemyFactory;
         private int _currentWaveIndex;
@@ -34,6 +36,7 @@ namespace Project.Scripts.GameLogic.Wave
         private void Awake()
         {
             _enemySpawner.OnAllEnemiesDead += OnAllEnemiesDead;
+            _treeUpgrade.OnClose += StartNextWave;
             OnWaveEnd += OnWaveEndHandler;
         }
 
@@ -52,6 +55,7 @@ namespace Project.Scripts.GameLogic.Wave
         {
             _enemySpawner.OnAllEnemiesDead -= OnAllEnemiesDead;
             OnWaveEnd -= OnWaveEndHandler;
+            _treeUpgrade.OnClose -= StartNextWave;
         }
 
         private void StartNextWave()

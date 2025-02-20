@@ -80,8 +80,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpawnPoint: {fileID: 8339688909150035834}
+  _view: {fileID: 8526175577771712465}
+  _moveSpeed: 3
   _bulletPrefab: {fileID: 1015478421178358482, guid: 2f01f10f59513ba4ca0a77596f9b258b, type: 3}
-  _bulletContainer: {fileID: 0}
 --- !u!50 &1256158954254262079
 Rigidbody2D:
   serializedVersion: 5

@@ -15,6 +15,9 @@ namespace Project.Scripts.GameLogic.Character.Decorator
     {
         private const string EnemyLayer = "Enemy";
         
+        private readonly Collider2D[] _results = new Collider2D[20];
+        private ContactFilter2D _filter;
+        
         public WispDecoratorReAim(WispComponent component, BulletFactory bulletFactory, WispStats wispStats) : base(component)
         {
             DebugSystem.Instance.Log(LogType.WispComponent, 
@@ -22,6 +25,11 @@ namespace Project.Scripts.GameLogic.Character.Decorator
             var args = new BulletActionsArgs(OnEnemyHit, OnWallHit, MoveForward, wispStats.Piercing);
             bulletFactory.SetActions(args);
             bulletFactory.SetConfigBulletFunc(ConfigBullet);
+            _filter = new ContactFilter2D
+            {
+                layerMask = LayerMask.GetMask(EnemyLayer),
+                useLayerMask = true,
+            };
         }
         
         //ToDo: Optimize this method, this method creates spikes in performance
@@ -29,21 +37,15 @@ namespace Project.Scripts.GameLogic.Character.Decorator
         {
             base.OnEnemyHit(bullet, health);
             if(bullet == null) return;
-            var results = new Collider2D[20];
-            var filter = new ContactFilter2D
-            {
-                layerMask = LayerMask.GetMask(EnemyLayer),
-                useLayerMask = true,
-            };
-            var size = Physics2D.OverlapCircle(bullet.transform.position, 20, filter, results);
+            var size = Physics2D.OverlapCircle(bullet.transform.position, 20, _filter, _results);
             if (size <= 0) return;
             Collider2D closestTarget = null;
             var minDistance = 3000f;
             var baseEnemy = health.GO;
             var bulletPosition = bullet.transform.position;
-            foreach (var coll in results.AsSpan(0, size))
+            foreach (var coll in _results.AsSpan(0, size))
             {
-                if (coll.gameObject == baseEnemy) continue;
+                if (coll == null || coll.gameObject == baseEnemy) continue;
                 var distance = Vector2.SqrMagnitude(coll.transform.position - bulletPosition);
                 if (distance < minDistance)
                 {

@@ -15,6 +15,5 @@ MonoBehaviour:
   _icon: {fileID: 0}
   _name: Standard
   _description: 
-  _wispsPrefab: {fileID: 2475469126687388426, guid: f507bee94d727df47aa85ceb45e4a795, type: 3}
+  _wispPrefab: {fileID: 2296386733225343683, guid: f507bee94d727df47aa85ceb45e4a795, type: 3}
   _wispConfig: {fileID: 11400000, guid: eac77c2481584bd4a9c290253be0ded8, type: 2}
-  _bulletPrefab: {fileID: 1015478421178358482, guid: 2f01f10f59513ba4ca0a77596f9b258b, type: 3}

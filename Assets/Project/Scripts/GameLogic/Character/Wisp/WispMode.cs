@@ -13,17 +13,16 @@ namespace Project.Scripts.GameLogic.Character.Wisp
 {
     public class WispMode: WispBase
     {
-        [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private Bullet _bulletAPrefab;
         [SerializeField] private Bullet _bulletBPrefab;
-        [SerializeField] private Transform _bulletAContainer;
-        [SerializeField] private Transform _bulletBContainer;
 
         private WispDecoratorFactory _wispDecoratorFactory;
         private IStateMachine _stateMachine;
         private DiContainer _diContainer;
         private WispBaseModeStateA _stateA;
         private WispBaseModeStateB _stateB;
+        private Transform _bulletAContainer;
+        private Transform _bulletBContainer;
         private WispBonuses _wispBonuses;
         private WispStats _wispStats;
         
@@ -36,10 +35,14 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             _wispBonuses = wispBonuses;
         }
         
-        private void Start()
+        protected override void Start()
         {
-            BulletSpawnPoint = _bulletSpawnPoint;
+            base.Start();
             _stateMachine = new StateMachine();
+            _bulletAContainer = new GameObject("BulletAContainer").transform;
+            _bulletBContainer = new GameObject("BulletBContainer").transform;
+            _bulletAContainer.SetParent(BulletContainer);
+            _bulletBContainer.SetParent(BulletContainer);
             _stateA = new WispBaseModeStateA(_bulletAPrefab, _bulletAContainer, _bulletSpawnPoint, _diContainer, _wispDecoratorFactory, _wispStats, _wispBonuses);
             _stateB = new WispBaseModeStateB(_bulletBPrefab, _bulletBContainer, _bulletSpawnPoint, _diContainer, _wispDecoratorFactory, _wispStats, _wispBonuses);
             _stateMachine.AddState(typeof(WispBaseModeStateA), _stateA);
@@ -47,8 +50,9 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             _stateMachine.Initialize(_stateA);
         }
         
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             _stateMachine.CurrentState.Update();
             if (Input.GetKeyDown(KeyCode.Z))
             {

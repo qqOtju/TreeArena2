@@ -41,6 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 566855143449158209}
   - component: {fileID: 2296386733225343683}
+  - component: {fileID: 857874941388948472}
   m_Layer: 0
   m_Name: Wisp
   m_TagString: Untagged
@@ -78,8 +79,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpawnPoint: {fileID: 6970725652683952405}
+  _view: {fileID: 6778323042846940935}
+  _moveSpeed: 3
   _bulletPrefab: {fileID: 1015478421178358482, guid: 2f01f10f59513ba4ca0a77596f9b258b, type: 3}
-  _bulletContainer: {fileID: 0}
+--- !u!50 &857874941388948472
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2475469126687388426}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &5015313170854538201
 GameObject:
   m_ObjectHideFlags: 0

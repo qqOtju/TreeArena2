@@ -1,5 +1,4 @@
-﻿using Project.Scripts.GameLogic.Character.Attack;
-using Project.Scripts.GameLogic.Character.Wisp;
+﻿using Project.Scripts.GameLogic.Character.Wisp;
 using UnityEngine;
 
 namespace Project.Scripts.Config.Wisp
@@ -10,15 +9,13 @@ namespace Project.Scripts.Config.Wisp
         [SerializeField] private Sprite _icon;
         [SerializeField] private string _name;
         [SerializeField] private string _description;
-        [SerializeField] private WispBase _wispsPrefab;
+        [SerializeField] private WispBase _wispPrefab;
         [SerializeField] private WispConfig _wispConfig;
-        [SerializeField] private Bullet _bulletPrefab;
         
         public Sprite Icon => _icon;
         public string Name => _name;
         public string Description => _description;
-        public WispBase WispsPrefab => _wispsPrefab;
+        public WispBase WispPrefab => _wispPrefab;
         public WispConfig WispConfig => _wispConfig;
-        public Bullet BulletPrefab => _bulletPrefab;
     }
 }

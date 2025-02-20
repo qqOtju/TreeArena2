@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _value:
     _maxHealth: 20000
-    _moveSpeed: 0
+    _moveSpeed: 3
     _damage: 50
-    _attackSpeed: 0
-    _attackRange: 0
+    _attackSpeed: 1
+    _attackRange: 1
     _maxHealthPerWave: 2000
     _moveSpeedPerWave: 0
     _damagePerWave: 0

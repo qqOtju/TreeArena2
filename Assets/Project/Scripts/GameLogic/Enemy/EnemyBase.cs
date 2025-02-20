@@ -2,9 +2,11 @@
 using Project.Scripts.Config.Enemy;
 using Project.Scripts.Debug;
 using Project.Scripts.Entity;
+using Project.Scripts.GameLogic.Movement;
 using UnityEngine;
 using LogType = Project.Scripts.Debug.LogType;
 using Random = UnityEngine.Random;
+using Tree = Project.Scripts.GameLogic.Character.Tree;
 
 namespace Project.Scripts.GameLogic.Enemy
 {
@@ -14,38 +16,121 @@ namespace Project.Scripts.GameLogic.Enemy
     {
         [SerializeField] private EnemyType _type;
         
-        private Vector3 _targetPosition;
-        private EnemyValue _enemyValue;
+        private const string TreeTag = "Tree";
+        
+        private Collider2D[] _nearbyObjects = new Collider2D[20];
+        private ContactFilter2D _contactFilter;
+        private float _attackTimer;
+        
+        protected BasicMovement BasicMovement;
+        protected Vector3 TargetPosition;
+        protected EnemyValue EnemyValue;
+        protected Vector2 MoveInput;
+        protected Tree TargetTree;
         
         public EnemyType Type => _type;
         
         public event Action<EnemyBase> OnDeath;
+        public event Action<EnemyBase, IHealth> OnDealDamage;
 
-        public void Initialize(EnemyValue enemyStat, Transform target)
+        public void Initialize(EnemyValue enemyStat, Tree tree)
         {
-            _enemyValue = enemyStat;
+            EnemyValue = enemyStat;
+            TargetTree = tree;
             var range = 0.8f;
-            _targetPosition = target.position + new Vector3(Random.Range(-range, range), Random.Range(-range, range), 0);
-            SetInitialHealth(_enemyValue.MaxHealth);
+            TargetPosition = tree.transform.position + new Vector3(Random.Range(-range, range), Random.Range(-range, range), 0);
+            SetInitialHealth(EnemyValue.MaxHealth);
             #if (DEVELOPMENT_BUILD || UNITY_EDITOR)
             DebugSystem.Instance.Log(LogType.Enemy, $"Enemy {gameObject.name} initialized with \n" +
-                                                   $"MaxHealth: {_enemyValue.MaxHealth} \n" +
-                                                   $"Speed: {_enemyValue.MoveSpeed} \n" +
-                                                   $"Damage: {_enemyValue.Damage} \n" +
-                                                   $"AttackSpeed: {_enemyValue.AttackSpeed} \n" +
-                                                   $"AttackRange: {_enemyValue.AttackRange} \n");
+                                                   $"MaxHealth: {EnemyValue.MaxHealth} \n" +
+                                                   $"Speed: {EnemyValue.MoveSpeed} \n" +
+                                                   $"Damage: {EnemyValue.Damage} \n" +
+                                                   $"AttackSpeed: {EnemyValue.AttackSpeed} \n" +
+                                                   $"AttackRange: {EnemyValue.AttackRange} \n");
             #endif
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             OnHealthChange += CheckDeath;
         }
+
+        protected virtual void Start()
+        {
+            BasicMovement = new BasicMovement(GetComponent<Rigidbody2D>());
+            _contactFilter = new ContactFilter2D
+            {
+                useLayerMask = true,
+                layerMask = LayerMask.GetMask(TreeTag)
+            };
+        }
+
+        protected virtual void Update()
+        {
+            CalculateMoveInput();
+            AttackCycle();
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            Move();
+        }
+
+        protected virtual void Move()
+        {
+            BasicMovement.Move(MoveInput, EnemyValue.MoveSpeed);
+        }
         
+        private void CalculateMoveInput()
+        {
+             if(IsNearbyTree())
+                MoveInput = Vector2.zero;
+             else
+                MoveInput = (TargetPosition - transform.position).normalized;
+        }
+
+        protected virtual void AttackCycle()
+        {
+            if(!IsNearbyTree()) return;
+            _attackTimer += Time.deltaTime;
+            if (_attackTimer >= EnemyValue.AttackSpeed)
+            {
+                Attack(TargetTree);
+                _attackTimer = 0;
+            }
+        }
+
+        private bool IsNearbyTree()
+        {
+            Physics2D.OverlapCircle(transform.position, 
+                EnemyValue.AttackRange, _contactFilter, _nearbyObjects);
+            foreach (var hit in _nearbyObjects)
+                if (hit != null && hit.transform.CompareTag(TreeTag))
+                    return true;
+            return false;
+        }
+
+        protected virtual void Attack(IHealth health)
+        {
+            health.TakeDamage(EnemyValue.Damage);
+            OnDealDamage?.Invoke(this, health);
+        }
+        
+        protected void RaiseOnDealDamage(IHealth health)
+        {
+            OnDealDamage?.Invoke(this, health);
+        }
+
         private void CheckDeath(OnHealthChangeArgs obj)
         {
             if (obj.Type != HeathChangeType.Death) return;
             OnDeath?.Invoke(this);
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, EnemyValue.AttackRange);
         }
     }
 }

@@ -3,7 +3,6 @@ using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.Module.Factory;
-using Project.Scripts.Module.Stats;
 using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using Zenject;
@@ -13,9 +12,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
 {
     public class WispMagazine: WispBase
     {
-        [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private Bullet _bulletPrefab;
-        [SerializeField] private Transform _bulletContainer;
 
         private const int MagazineSize = 10;
         private const float ReloadTime = 2f;
@@ -24,7 +21,6 @@ namespace Project.Scripts.GameLogic.Character.Wisp
         private WispDecorator _wispDecorator;
         private DiContainer _diContainer;
         private WispStats _wispStats;
-        private Camera _mainCamera;
         private float _attackTimer;
         private int _currentMagazineSize;
         private float _reloadTimer;
@@ -38,23 +34,21 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             _wispStats = wispStats;
         }
         
-        private void Start()
+        protected override void Start()
         {
-            _mainCamera = Camera.main;
-            BulletFactory = new BulletFactory(_bulletPrefab, _bulletContainer, _diContainer, _bulletSpawnPoint);
-            BulletSpawnPoint = _bulletSpawnPoint;
+            base.Start();
+            BulletFactory = new BulletFactory(_bulletPrefab, BulletContainer, _diContainer, _bulletSpawnPoint);
             _wispDecorator = new WispDecoratorStandard(new WispComponentStandard(BulletFactory, _bulletSpawnPoint, _wispStats), BulletFactory, _bulletSpawnPoint);
             _currentMagazineSize = MagazineSize;
         }
         
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             if(!_isReloading)
                 Attack();
             else
                 Reload();
-            if (Input.GetMouseButtonDown(0))
-                RotateBulletSpawnPoint();
         }
 
         private void Attack()
@@ -87,14 +81,6 @@ namespace Project.Scripts.GameLogic.Character.Wisp
                 _isReloading = false;
                 _reloadTimer = 0;
             }
-        }
-
-        private void RotateBulletSpawnPoint()
-        {
-            var mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            var direction = mousePosition - _bulletSpawnPoint.position;
-            var targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            _bulletSpawnPoint.localRotation = Quaternion.Euler(0, 0, targetAngle);
         }
         
         public override void AddDecorator<T>()

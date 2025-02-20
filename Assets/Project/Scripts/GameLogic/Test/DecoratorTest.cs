@@ -16,7 +16,6 @@ namespace Project.Scripts.GameLogic.Test
     public class DecoratorTest: MonoBehaviour
     {
         [SerializeField] private EnemySpawner _enemySpawner;
-        [SerializeField] private WispBase _wispObject;
         [SerializeField] private Tree _treeObject;
         [SerializeField] private EnemyData _enemyData;
         
@@ -24,15 +23,17 @@ namespace Project.Scripts.GameLogic.Test
         private TreeBonuses _treeBonuses;
         private EnemyFactory _enemyFactory;
         private EnemyBonuses _enemyBonuses;
+        private WispBase _wispObject;
 
         [Inject]
         private void Construct(WispBonuses wispBonuses, TreeBonuses treeBonuses, 
-            EnemyFactory enemyFactory, EnemyBonuses enemyBonuses)
+            EnemyFactory enemyFactory, EnemyBonuses enemyBonuses, WispBase wispObject)
         {
             _bonuses = wispBonuses;
             _treeBonuses = treeBonuses;
             _enemyFactory = enemyFactory;
             _enemyBonuses = enemyBonuses;
+            _wispObject = wispObject;
         }
 
         private void Update()

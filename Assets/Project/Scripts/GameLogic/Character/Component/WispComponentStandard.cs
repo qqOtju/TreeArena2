@@ -102,7 +102,7 @@ namespace Project.Scripts.GameLogic.Character.Component
         public override Bullet ConfigBullet(Bullet bullet)
         {
             bullet.transform.rotation = Quaternion.Euler(
-                new Vector3(0,0, BulletSpawnPoint.localRotation.eulerAngles.z));
+                0,0, BulletSpawnPoint.localRotation.eulerAngles.z);
             return bullet;
         }
 

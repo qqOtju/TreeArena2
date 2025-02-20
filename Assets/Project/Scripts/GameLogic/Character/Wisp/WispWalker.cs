@@ -2,9 +2,7 @@
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.GameLogic.Character.Decorator;
-using Project.Scripts.GameLogic.Movement;
 using Project.Scripts.Module.Factory;
-using Project.Scripts.Module.Stats;
 using Project.Scripts.Module.Stats.Wisp;
 using UnityEngine;
 using Zenject;
@@ -15,22 +13,17 @@ namespace Project.Scripts.GameLogic.Character.Wisp
     [RequireComponent(typeof(Rigidbody2D))]
     public class WispWalker: WispBase
     {
-        [SerializeField] private Transform _bulletSpawnPoint;
         [SerializeField] private Bullet _bulletPrefab;
-        [SerializeField] private Transform _bulletContainer;
 
         private const float DistanceToShoot = 1.25f;
         
         private WispDecoratorFactory _wispDecoratorFactory;
-        private BasicMovement _basicMovement;
         private WispDecorator _wispDecorator;
         private DiContainer _diContainer;
         private Vector3 _pastPosition;
         private WispStats _wispStats;
-        private Camera _mainCamera;
         private float _attackTimer;
         private float _currentDistance;
-        private Rigidbody2D _rb;
 
         [Inject]
         private void Construct(DiContainer diContainer, WispDecoratorFactory wispDecoratorFactory, WispStats wispStats)
@@ -40,17 +33,20 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             _wispStats = wispStats;
         }
         
-        private void Start()
+        protected override void Start()
         {
-            _rb = GetComponent<Rigidbody2D>();
-            _basicMovement = new BasicMovement(_rb);
-            _mainCamera = Camera.main;
-            BulletFactory = new BulletFactory(_bulletPrefab, _bulletContainer, _diContainer, _bulletSpawnPoint);
-            BulletSpawnPoint = _bulletSpawnPoint;
+            base.Start();
+            BulletFactory = new BulletFactory(_bulletPrefab, BulletContainer, _diContainer, _bulletSpawnPoint);
             _wispDecorator = new WispDecoratorStandard(new WispComponentStandard(BulletFactory, _bulletSpawnPoint, _wispStats), BulletFactory, _bulletSpawnPoint);
         }
-        
-        private void Update()
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            AttackCycle();
+        }
+
+        private void AttackCycle()
         {
             var currentPos = transform.position;
             var distance = Vector3.Distance(currentPos, _pastPosition);
@@ -62,31 +58,12 @@ namespace Project.Scripts.GameLogic.Character.Wisp
                 _wispDecorator.Shoot();
                 _currentDistance = 0;
             }
-
-            MoveForward();
-            if (Input.GetMouseButtonDown(0))
-                RotateBulletSpawnPoint();
         }
 
-        private void MoveForward()
-        {
-            var moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-            _basicMovement.Move(moveInput, 6f);
-        }
-
-        private void RotateBulletSpawnPoint()
-        {
-            var mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            var direction = mousePosition - _bulletSpawnPoint.position;
-            var targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            _bulletSpawnPoint.localRotation = Quaternion.Euler(0, 0, targetAngle);
-        }
-        
         public override void AddDecorator<T>()
         {
             DebugSystem.Instance.Log(LogType.Wisp, "Decorator added!");
             _wispDecorator = _wispDecoratorFactory.CreateDecorator<T>(this, _wispDecorator);
         }
-        
     }
 }
