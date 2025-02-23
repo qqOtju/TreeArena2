@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ec35c80b6c46d6ae44c260fcbab194, type: 3}
   m_Name: Tree Config
   m_EditorClassIdentifier: 
-  _maxHealth: 1000
+  _maxHealth: 100000
   _regen: 10
   _armor: 300
   _absorption: 0

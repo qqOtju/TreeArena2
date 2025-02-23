@@ -1,17 +1,15 @@
-﻿using System;
+﻿
 using Project.Scripts.Entity;
-using Project.Scripts.Module.Stats;
 using Project.Scripts.Module.Stats.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-using Tree = Project.Scripts.GameLogic.Character.Tree;
 
 namespace Project.Scripts.UI.Game
 {
     public class UIGame: MonoBehaviour
     {
-        [SerializeField] private Tree _tree;
+        [SerializeField] private GameLogic.Character.Tree _tree;
         [SerializeField] private Slider _healthSlider;
         [SerializeField] private Slider _armorSlider;
 

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Project.Scripts.Debug;
 using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Wave;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Tree = Project.Scripts.GameLogic.Character.Tree;
+using LogType = Project.Scripts.Debug.LogType;
 
 namespace Project.Scripts.UI.Game
 {
@@ -16,7 +16,8 @@ namespace Project.Scripts.UI.Game
         [SerializeField] private Button _mainMenuButton;
         [SerializeField] private Button _infinityButton;
         [SerializeField] private WaveController _waveController;
-        [SerializeField] private Tree _tree;
+        //ToDo Remove GameLogic.Character.Tree i need just Tree
+        [SerializeField] private GameLogic.Character.Tree _tree;
 
         private Canvas _canvas;
         
@@ -79,6 +80,7 @@ namespace Project.Scripts.UI.Game
         {
             if(obj.Type == HeathChangeType.Death)
             {
+                DebugSystem.Instance.Log(LogType.Wave, "Tree is <color=red>dead</color>! Game over!");
                 Time.timeScale = 0;
                 _canvas.enabled = true;
             }

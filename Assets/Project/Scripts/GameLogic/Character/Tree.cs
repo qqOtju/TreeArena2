@@ -1,6 +1,7 @@
 ﻿using System;
 using Project.Scripts.Debug;
 using Project.Scripts.Entity;
+using Project.Scripts.GameLogic.Wave;
 using Project.Scripts.Module.Stats.Tree;
 using UnityEngine;
 using Zenject;
@@ -11,12 +12,11 @@ namespace Project.Scripts.GameLogic.Character
 {
     public class Tree: EntityBase
     {
+        [SerializeField] private WaveController _waveController;
+        
         private TreeBonuses _treeBonuses;
         private TreeStats _treeStats;
         private float _currentArmor;
-
-        private int _healthDebugTick;
-        private int _armorDebugTick;
         
         public float CurrentArmor
         {
@@ -40,15 +40,11 @@ namespace Project.Scripts.GameLogic.Character
         
         private void Awake()
         {
-            _treeBonuses.OnMaxHealthChanged += IncreaseMaxHealth;
-            OnHealthChange += DebugHealthChange;
-            OnArmorChange += DebugArmorChange;
-        }
-
-        private void Start()
-        {
             SetInitialHealth(_treeStats.MaxHealth);
             CurrentArmor = _treeStats.Armor;
+            _treeBonuses.OnMaxHealthChanged += IncreaseMaxHealth;
+            _waveController.OnWaveEnd += ResetTree;
+            _waveController.OnWaveStart += ResetTree;
         }
 
         private void Update()
@@ -62,18 +58,13 @@ namespace Project.Scripts.GameLogic.Character
         private void OnDestroy()
         {
             _treeBonuses.OnMaxHealthChanged -= IncreaseMaxHealth;
-            OnHealthChange -= DebugHealthChange;
-            OnArmorChange -= DebugArmorChange;
+            _waveController.OnWaveEnd -= ResetTree;
+            _waveController.OnWaveStart -= ResetTree;
         }
         
-        private void OnWaveEnd()
+        private void ResetTree(int wave)
         {
-            _treeBonuses.Regen += 500;
-        }
-        
-        private void OnWaveStart()
-        {
-            _treeBonuses.Regen -= 500;
+            CurrentHealth = _treeStats.MaxHealth;
             CurrentArmor = _treeStats.Armor;
         }
 
@@ -99,26 +90,6 @@ namespace Project.Scripts.GameLogic.Character
                 healthDmg += armorDmg;
             CurrentHealth -= healthDmg;
             DebugSystem.Instance.Log(LogType.Tree, $"Tree takes <color=red>{dmg}</color> damage \n HP {CurrentHealth}/{MaxHealth} \n Armor {CurrentArmor}/{_treeStats.Armor}");
-        }
-        
-        private void DebugHealthChange(OnHealthChangeArgs args)
-        {
-            _healthDebugTick++;
-            if(_healthDebugTick == 50)
-            {
-                DebugSystem.Instance.Log(LogType.Tree, $"Health: {CurrentHealth}/{MaxHealth}");
-                _healthDebugTick = 0;
-            }
-        }
-
-        private void DebugArmorChange(float obj)
-        {
-            _armorDebugTick++;
-            if(_armorDebugTick == 50)
-            {
-                DebugSystem.Instance.Log(LogType.Tree, $"Armor: {CurrentArmor}/{_treeStats.Armor}");
-                _armorDebugTick = 0;
-            }
         }
     }
 }

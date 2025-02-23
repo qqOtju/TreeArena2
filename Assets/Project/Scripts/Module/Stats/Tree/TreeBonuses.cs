@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.Scripts.Config.Item.Tree;
 using Project.Scripts.Debug;
 
 namespace Project.Scripts.Module.Stats.Tree
@@ -15,6 +16,7 @@ namespace Project.Scripts.Module.Stats.Tree
             get => _maxHealth;
             set
             {
+                if(value == _maxHealth) return;
                 _maxHealth = value;
                 DebugSystem.Instance.Log(LogType.TreeStats, $"Bonus max health: {_maxHealth}");
                 OnMaxHealthChanged?.Invoke(_maxHealth);
@@ -25,6 +27,7 @@ namespace Project.Scripts.Module.Stats.Tree
             get => _regen;
             set
             {
+                if(value == _regen) return;
                 _regen = value;
                 DebugSystem.Instance.Log(LogType.TreeStats, $"Bonus regen: {_regen}");
                 OnRegenChanged?.Invoke(_regen);
@@ -35,6 +38,7 @@ namespace Project.Scripts.Module.Stats.Tree
             get => _armor;
             set
             {
+                if(value == _armor) return;
                 _armor = value;
                 DebugSystem.Instance.Log(LogType.TreeStats, $"Bonus armor: {_armor}");
                 OnArmorChanged?.Invoke(_armor);
@@ -45,6 +49,7 @@ namespace Project.Scripts.Module.Stats.Tree
             get => _absorption;
             set
             {
+                if(value == _absorption) return;
                 _absorption = value;
                 DebugSystem.Instance.Log(LogType.TreeStats, $"Bonus absorption: {_absorption}");
                 OnResistChanged?.Invoke(_absorption);
@@ -55,5 +60,13 @@ namespace Project.Scripts.Module.Stats.Tree
         public event Action<float> OnRegenChanged;
         public event Action<int> OnArmorChanged;
         public event Action<float> OnResistChanged;
+        
+        public void ApplyItemBonuses(TreeItem item)
+        {
+            MaxHealth += item.MaxHealth;
+            Regen += item.Regen;
+            Armor += item.Armor;
+            Absorption += item.Absorption;
+        }
     }
 }

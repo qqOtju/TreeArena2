@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1945eed504f841468252cd6bc9855dab, type: 3}
+  m_Name: Rare
+  m_EditorClassIdentifier: 
+  _itemName: Rare
+  _description: 
+  _icon: {fileID: -504578970313237647, guid: 07dfe49c45ce0ce42bd1392ed2fb9eb9, type: 3}
+  _rarity: 1
+  _maxHealth: 5
+  _regen: 3
+  _armor: 0
+  _absorption: 0

@@ -1,10 +1,14 @@
-﻿using Project.Scripts.Config.Tree;
+﻿using System.Collections.Generic;
+using Project.Scripts.Config.Item.Tree;
+using Project.Scripts.Config.Tree;
 using Project.Scripts.Config.Wisp;
 using Project.Scripts.GameLogic;
 using Project.Scripts.GameLogic.Character;
 using Project.Scripts.GameLogic.Character.Wisp;
 using Project.Scripts.GameLogic.Enemy;
+using Project.Scripts.GameLogic.GameCycle;
 using Project.Scripts.Module.Factory;
+using Project.Scripts.Module.ItemManager;
 using Project.Scripts.Module.Stats.Enemy;
 using Project.Scripts.Module.Stats.Tree;
 using Project.Scripts.Module.Stats.Wisp;
@@ -26,11 +30,13 @@ namespace Project.Scripts.Infrastructure
         
         private EnemyBonuses _enemyBonuses;
         private GameData _gameData;
+        private List<TreeItem> _treeItems;
 
         [Inject]
-        private void Construct(GameData gameData)
+        private void Construct(GameData gameData, List<TreeItem> treeItems)
         {
             _gameData = gameData;
+            _treeItems = treeItems;
         }
         
         public override void InstallBindings()
@@ -41,6 +47,7 @@ namespace Project.Scripts.Infrastructure
             BindEnemyBonuses();
             BindEnemyFactory();
             BindWisp();
+            BindTreeItemManager();
         }
 
         private void BindDecoratorFactory()
@@ -83,6 +90,12 @@ namespace Project.Scripts.Infrastructure
             var wisp = Container.InstantiatePrefab(wispPrefab).GetComponent<WispBase>();
             wisp.Init(_player.transform, _bulletContainer);
             Container.Bind<WispBase>().FromInstance(wisp).AsSingle();
+        }
+
+        private void BindTreeItemManager()
+        {
+            var treeItemManager = new TreeItemManager(_treeItems);
+            Container.Bind<TreeItemManager>().FromInstance(treeItemManager).AsSingle();
         }
     }
 }

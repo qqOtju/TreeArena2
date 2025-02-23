@@ -127,7 +127,7 @@ namespace Project.Scripts.GameLogic.Test
         
         private void AddAttackSpeed()
         {
-            _bonuses.AttackSpeed -= 0.1f;
+            _bonuses.AttackSpeed += 10f;
         }
         
         private void AddCriticalChance()

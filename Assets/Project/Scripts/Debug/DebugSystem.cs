@@ -186,6 +186,7 @@ namespace Project.Scripts.Debug
         
         private void ScrollToBottom()
         {
+            if(!_windowRect.gameObject.activeSelf) return;
             Canvas.ForceUpdateCanvases();
             _scrollRect.verticalNormalizedPosition = 0f;
         }

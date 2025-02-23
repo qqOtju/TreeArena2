@@ -1,6 +1,6 @@
 ﻿using Project.Scripts.Config.Wisp;
 
-namespace Project.Scripts.GameLogic
+namespace Project.Scripts.GameLogic.GameCycle
 {
     public class GameData
     {
