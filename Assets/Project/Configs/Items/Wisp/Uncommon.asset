@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a53d70e790d44c2bb2e163be424dc9b, type: 3}
+  m_Name: Uncommon
+  m_EditorClassIdentifier: 
+  _itemName: C
+  _description: 
+  _icon: {fileID: 21300000, guid: 2c0e8d288a5202241ba927253be47085, type: 3}
+  _rarity: 0
+  _price: 0
+  _damage: 5
+  _attackSpeed: 5
+  _criticalChance: 5
+  _criticalDamage: 5
+  _piercing: 5
+  _bonusEliteDamage: 5
+  _bonusBossDamage: 5
+  _enemyMaxHealth: 5
+  _enemyMoveSpeed: 5
+  _enemyDamage: 5
+  _enemyAttackSpeed: 5
+  _enemyAttackRange: 5
+  _wispDecoratorTypeName: 

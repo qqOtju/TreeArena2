@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Debug;
+﻿using System;
+using Project.Scripts.Debug;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
 using Project.Scripts.GameLogic.Character.Decorator;
@@ -83,10 +84,10 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             }
         }
         
-        public override void AddDecorator<T>()
+        public override void AddDecorator(Type wispDecoratorType)
         {
             DebugSystem.Instance.Log(LogType.Wisp, "Decorator set!");
-            _wispDecorator = _wispDecoratorFactory.CreateDecorator<T>(this, _wispDecorator);
+            _wispDecorator = _wispDecoratorFactory.CreateDecorator(wispDecoratorType, this, _wispDecorator);
         }
     }
 }

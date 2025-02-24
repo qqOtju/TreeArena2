@@ -23,11 +23,11 @@ namespace Project.Scripts.GameLogic.Test
         private TreeBonuses _treeBonuses;
         private EnemyFactory _enemyFactory;
         private EnemyBonuses _enemyBonuses;
-        private WispBase _wispObject;
+        private IWisp _wispObject;
 
         [Inject]
         private void Construct(WispBonuses wispBonuses, TreeBonuses treeBonuses, 
-            EnemyFactory enemyFactory, EnemyBonuses enemyBonuses, WispBase wispObject)
+            EnemyFactory enemyFactory, EnemyBonuses enemyBonuses, IWisp wispObject)
         {
             _bonuses = wispBonuses;
             _treeBonuses = treeBonuses;
@@ -82,42 +82,42 @@ namespace Project.Scripts.GameLogic.Test
 
         private void DoubleAttack()
         {
-            _wispObject.AddDecorator<WispDecoratorDoubleAttack>();
+            _wispObject.AddDecorator(typeof(WispDecoratorDoubleAttack));
         }
 
         private void BackShot()
         {
-            _wispObject.AddDecorator<WispDecoratorBackShot>();
+            _wispObject.AddDecorator(typeof(WispDecoratorBackShot));
         }
 
         private void UniqueAttack()
         {
-            _wispObject.AddDecorator<WispDecoratorUniqueBullet>();
+            _wispObject.AddDecorator(typeof(WispDecoratorUniqueBullet));
         }
         
         private void InterestingMovement()
         {
-            _wispObject.AddDecorator<WispDecoratorInterestingMovement>();
+            _wispObject.AddDecorator(typeof(WispDecoratorInterestingMovement));
         }
         
         private void BulletsOnHealthHit()
         {
-            _wispObject.AddDecorator<WispDecoratorBulletsOnTargetDeath>();
+            _wispObject.AddDecorator(typeof(WispDecoratorBulletsOnTargetDeath));
         }
 
         private void ReAim()
         {
-            _wispObject.AddDecorator<WispDecoratorReAim>();
+            _wispObject.AddDecorator(typeof(WispDecoratorReAim));
         }
 
         private void Melee()
         {
-            _wispObject.AddDecorator<WispDecoratorMelee>();
+            _wispObject.AddDecorator(typeof(WispDecoratorMelee));
         }
         
         private void Sniper()
         {
-            _wispObject.AddDecorator<WispDecoratorSniper>();
+            _wispObject.AddDecorator(typeof(WispDecoratorSniper));
         }
 
         private void AddDamage()

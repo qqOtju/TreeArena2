@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Debug;
+﻿using System;
+using Project.Scripts.Debug;
 using Project.Scripts.DesignPattern.FSM;
 using Project.Scripts.GameLogic.Character.Attack;
 using Project.Scripts.GameLogic.Character.Component;
@@ -66,11 +67,11 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             }
         }
         
-        public override void AddDecorator<T>()
+        public override void AddDecorator(Type wispDecoratorType)
         {
             DebugSystem.Instance.Log(LogType.Wisp, "Decorator added!");
-            _stateA.AddDecorator<T>();
-            _stateB.AddDecorator<T>();
+            _stateA.AddDecorator(wispDecoratorType);
+            _stateB.AddDecorator(wispDecoratorType);
         }
     }
     
@@ -121,10 +122,10 @@ namespace Project.Scripts.GameLogic.Character.Wisp
 
         public override void OnDestroy() { }
 
-        public void AddDecorator<T>() where T : WispDecorator
+        public void AddDecorator(Type wispDecoratorType)
         {
             DebugSystem.Instance.Log(LogType.Wisp, "StateA decorator set!");
-            _decorator = _wispDecoratorFactory.CreateDecorator<T>(this, _decorator);
+            _decorator = _wispDecoratorFactory.CreateDecorator(wispDecoratorType, this, _decorator);
         }
     }
     
@@ -175,10 +176,10 @@ namespace Project.Scripts.GameLogic.Character.Wisp
 
         public override void OnDestroy() { }
 
-        public void AddDecorator<T>() where T : WispDecorator
+        public void AddDecorator(Type wispDecoratorType)
         {
             DebugSystem.Instance.Log(LogType.Wisp, "StateB decorator set!");
-            _decorator = _wispDecoratorFactory.CreateDecorator<T>(this, _decorator);
+            _decorator = _wispDecoratorFactory.CreateDecorator(wispDecoratorType, this, _decorator);
         }
     }
 }

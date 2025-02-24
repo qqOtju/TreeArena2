@@ -1,4 +1,5 @@
 ﻿using System;
+using Project.Scripts.Config.Item.WispShop;
 using Project.Scripts.Debug;
 
 namespace Project.Scripts.Module.Stats.Wisp
@@ -18,6 +19,7 @@ namespace Project.Scripts.Module.Stats.Wisp
             get => _damage;
             set
             {
+                if(value == _damage) return;
                 _damage = value;
                 DebugSystem.Instance.Log(LogType.WispStats, $"Bonus damage: {_damage}");
                 OnDamageChanged?.Invoke(_damage);
@@ -28,6 +30,7 @@ namespace Project.Scripts.Module.Stats.Wisp
             get => _attackSpeed;
             set
             {
+                if(value == _attackSpeed) return;
                 _attackSpeed = value;
                 DebugSystem.Instance.Log(LogType.WispStats, $"Bonus attack speed: {_attackSpeed}");
                 OnAttackSpeedChanged?.Invoke(_attackSpeed);
@@ -38,6 +41,7 @@ namespace Project.Scripts.Module.Stats.Wisp
             get => _criticalChance;
             set
             {
+                if(value == _criticalChance) return;
                 _criticalChance = value;
                 DebugSystem.Instance.Log(LogType.WispStats, $"Bonus critical chance: {_criticalChance}");
                 OnCriticalChanceChanged?.Invoke(_criticalChance);
@@ -48,6 +52,7 @@ namespace Project.Scripts.Module.Stats.Wisp
             get => _criticalDamage;
             set
             {
+                if(value == _criticalDamage) return;
                 _criticalDamage = value;
                 DebugSystem.Instance.Log(LogType.WispStats, $"Bonus critical damage: {_criticalDamage}");
                 OnCriticalDamageChanged?.Invoke(_criticalDamage);
@@ -58,6 +63,7 @@ namespace Project.Scripts.Module.Stats.Wisp
             get => _piercing;
             set
             {
+                if(value == _piercing) return;
                 _piercing = value;
                 DebugSystem.Instance.Log(LogType.WispStats, $"Bonus piercing: {_piercing}");
                 OnPiercingChanged?.Invoke(_piercing);
@@ -68,6 +74,7 @@ namespace Project.Scripts.Module.Stats.Wisp
             get => _bonusEliteDamage;
             set
             {
+                if(value == _bonusEliteDamage) return;
                 _bonusEliteDamage = value;
                 DebugSystem.Instance.Log(LogType.WispStats, $"Bonus elite damage: {_bonusEliteDamage}");
                 OnBonusEliteDamageChanged?.Invoke(_bonusEliteDamage);
@@ -78,6 +85,7 @@ namespace Project.Scripts.Module.Stats.Wisp
             get => _bonusBossDamage;
             set
             {
+                if(value == _bonusBossDamage) return;
                 _bonusBossDamage = value;
                 DebugSystem.Instance.Log(LogType.WispStats, $"Bonus boss damage: {_bonusBossDamage}");
                 OnBonusBossDamageChanged?.Invoke(_bonusBossDamage);
@@ -91,5 +99,16 @@ namespace Project.Scripts.Module.Stats.Wisp
         public event Action<int> OnPiercingChanged;
         public event Action<float> OnBonusEliteDamageChanged;
         public event Action<float> OnBonusBossDamageChanged;
+        
+        public void ApplyItemBonuses(WispItem item)
+        {
+            Damage += item.Damage;
+            AttackSpeed += item.AttackSpeed;
+            CriticalChance += item.CriticalChance;
+            CriticalDamage += item.CriticalDamage;
+            Piercing += item.Piercing;
+            BonusEliteDamage += item.BonusEliteDamage;
+            BonusBossDamage += item.BonusBossDamage;
+        }
     }
 }

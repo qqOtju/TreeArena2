@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Project.Scripts.Config.Item.Tree;
+using Project.Scripts.Config.Item.WispShop;
 using Project.Scripts.Config.Tree;
 using Project.Scripts.Config.Wisp;
 using Project.Scripts.GameLogic;
@@ -26,17 +27,18 @@ namespace Project.Scripts.Infrastructure
         [SerializeField] private Tree _tree;
         [SerializeField] private Player _player;
         [SerializeField] private Transform _bulletContainer;
-        [SerializeField] private WispData _wispData;
         
         private EnemyBonuses _enemyBonuses;
         private GameData _gameData;
         private List<TreeItem> _treeItems;
+        private List<WispItem> _wispShopItems;
 
         [Inject]
-        private void Construct(GameData gameData, List<TreeItem> treeItems)
+        private void Construct(GameData gameData, List<TreeItem> treeItems, List<WispItem> wispShopItems)
         {
             _gameData = gameData;
             _treeItems = treeItems;
+            _wispShopItems = wispShopItems;
         }
         
         public override void InstallBindings()
@@ -48,6 +50,7 @@ namespace Project.Scripts.Infrastructure
             BindEnemyFactory();
             BindWisp();
             BindTreeItemManager();
+            BindWispShopItemManager();
         }
 
         private void BindDecoratorFactory()
@@ -89,13 +92,19 @@ namespace Project.Scripts.Infrastructure
             var wispPrefab = _gameData.ChosenWisp.WispPrefab;
             var wisp = Container.InstantiatePrefab(wispPrefab).GetComponent<WispBase>();
             wisp.Init(_player.transform, _bulletContainer);
-            Container.Bind<WispBase>().FromInstance(wisp).AsSingle();
+            Container.Bind<IWisp>().FromInstance(wisp).AsSingle();
         }
 
         private void BindTreeItemManager()
         {
             var treeItemManager = new TreeItemManager(_treeItems);
             Container.Bind<TreeItemManager>().FromInstance(treeItemManager).AsSingle();
+        }
+        
+        private void BindWispShopItemManager()
+        {
+            var wispShopItemManager = new WispItemManager(_wispShopItems);
+            Container.Bind<WispItemManager>().FromInstance(wispShopItemManager).AsSingle();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Project.Scripts.GameLogic.Character.Decorator;
+﻿using System;
+using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.Module.Factory;
 using UnityEngine;
 
@@ -8,6 +9,6 @@ namespace Project.Scripts.GameLogic.Character.Wisp
     {
         public Transform BulletSpawnPoint { get; }
         public BulletFactory BulletFactory { get; }
-        public void AddDecorator<T>() where T: WispDecorator;
+        public void AddDecorator(Type wispDecoratorType);
     }
 }

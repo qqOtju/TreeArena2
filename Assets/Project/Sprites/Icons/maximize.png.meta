@@ -46,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -84,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -148,13 +148,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: maximize_0
+      name: dice_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 278
-        width: 228
-        height: 227
+        x: 21
+        y: 0
+        width: 235
+        height: 382
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,20 +163,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5dd77db1564ca1710800000000000000
-      internalID: 1664858950804667861
+      spriteID: 973804f7ff36c8000800000000000000
+      internalID: 39516445742236537
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: maximize_1
+      name: dice_1
       rect:
         serializedVersion: 2
-        x: 278
-        y: 278
-        width: 227
-        height: 227
+        x: 38
+        y: 256
+        width: 439
+        height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,20 +185,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 78efb310d30caacd0800000000000000
-      internalID: -2546011271078347129
+      spriteID: 28b1c4be5e45af020800000000000000
+      internalID: 2376305099863235458
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: maximize_2
+      name: dice_2
       rect:
         serializedVersion: 2
-        x: 7
-        y: 7
-        width: 227
-        height: 227
+        x: 266
+        y: 0
+        width: 225
+        height: 378
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,30 +207,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7a2dc339e2c0e09f0800000000000000
-      internalID: -500449114413280601
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: maximize_3
-      rect:
-        serializedVersion: 2
-        x: 278
-        y: 7
-        width: 227
-        height: 227
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 8779beb7824377b40800000000000000
-      internalID: 5437872423555536760
+      spriteID: 8dcfb11b11ce92910800000000000000
+      internalID: 1813239885723335896
       vertices: []
       indices: 
       edges: []
@@ -249,10 +227,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      maximize_0: 1664858950804667861
-      maximize_1: -2546011271078347129
-      maximize_2: -500449114413280601
-      maximize_3: 5437872423555536760
+      dice_0: 39516445742236537
+      dice_1: 2376305099863235458
+      dice_2: 1813239885723335896
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

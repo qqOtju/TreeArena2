@@ -80,9 +80,14 @@ namespace Project.Scripts.Module.Factory
             return new WispDecoratorSniper(wispDecorator, wispBase.BulletFactory, _wispStats);
         }
         
-        public WispDecorator CreateDecorator<T>(IWisp wispBase, WispDecorator wispDecorator) where T: WispDecorator
+        public WispDecorator CreateDecorator(Type wispDecoratorType, IWisp wispBase, WispDecorator wispDecorator)
         {
-            if (_decorators.TryGetValue(typeof(T), out var decorator))
+            if (!typeof(WispDecorator).IsAssignableFrom(wispDecoratorType))
+            {
+                UnityEngine.Debug.LogError($"{wispDecoratorType} не є WispDecorator");
+                return null;
+            }
+            if (_decorators.TryGetValue(wispDecoratorType, out var decorator))
                 return decorator(wispBase, wispDecorator);
             return null;
         }

@@ -1,4 +1,5 @@
-﻿using Project.Scripts.GameLogic.Character.Decorator;
+﻿using System;
+using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.Module.Factory;
 using UnityEngine;
 
@@ -96,6 +97,6 @@ namespace Project.Scripts.GameLogic.Character.Wisp
             BulletContainer = bulletContainer;
         }
         
-        public abstract void AddDecorator<T>() where T : WispDecorator;
+        public abstract void AddDecorator(Type wispDecoratorType);
     }
 }

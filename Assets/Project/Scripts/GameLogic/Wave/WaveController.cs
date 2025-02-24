@@ -6,6 +6,7 @@ using Project.Scripts.Module.Factory;
 using Project.Scripts.Module.Spawner;
 using Project.Scripts.UI.Game;
 using Project.Scripts.UI.Game.Tree;
+using Project.Scripts.UI.Game.Wisp;
 using UnityEngine;
 using Zenject;
 using LogType = Project.Scripts.Debug.LogType;
@@ -17,7 +18,7 @@ namespace Project.Scripts.GameLogic.Wave
     {
         [SerializeField] private EnemySpawner _enemySpawner;
         [SerializeField] private WaveConfig[] _waveConfigs;
-        [SerializeField] private UITreeUpgrade _treeUpgrade;
+        [SerializeField] private UIWispShop _treeUpgrade;
         
         private EnemyFactory _enemyFactory;
         private int _currentWaveIndex;

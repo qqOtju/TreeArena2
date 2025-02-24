@@ -27,22 +27,30 @@ namespace Project.Scripts.Module.ItemManager
         
         public void RemoveItem(TreeItem item)
         {
-            if(TreeItems.Contains(item))
-                TreeItems.Remove(item);
+            if (!TreeItems.Contains(item)) return;
+            TreeItems.Remove(item);
+            if(_treeItems.TryGetValue(item.Rarity, out var shopItem))
+                shopItem.Remove(item);
         }
 
         public TreeItem GetRandomItem()
         {
             var random = UnityEngine.Random.value;
-            if (random < RarityUncommon)
+            if (random < RarityUncommon 
+                && _treeItems[TreeItemRarity.Uncommon].Count > 0)
                 return GetRandomItemByRarity(TreeItemRarity.Uncommon);
-            if (random < RarityUncommon + RarityRare)
+            if (random < RarityUncommon + RarityRare
+                && _treeItems[TreeItemRarity.Rare].Count > 0)
                 return GetRandomItemByRarity(TreeItemRarity.Rare);
-            if (random < RarityUncommon + RarityRare + RarityEpic)
+            if (random < RarityUncommon + RarityRare + RarityEpic
+                && _treeItems[TreeItemRarity.Epic].Count > 0)
                 return GetRandomItemByRarity(TreeItemRarity.Epic);
-            if (random < RarityUncommon + RarityRare + RarityEpic + RarityLegendary)
+            if (random < RarityUncommon + RarityRare + RarityEpic + RarityLegendary
+                && _treeItems[TreeItemRarity.Legendary].Count > 0)
                 return GetRandomItemByRarity(TreeItemRarity.Legendary);
-            return GetRandomItemByRarity(TreeItemRarity.Unique);
+            if(_treeItems[TreeItemRarity.Unique].Count > 0)
+                return GetRandomItemByRarity(TreeItemRarity.Unique);
+            return GetRandomItem();
         }
 
         private TreeItem GetRandomItemByRarity(TreeItemRarity uncommon)

@@ -82,3 +82,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: beac76072e4eb38499bedf4836f0c9c8, type: 2}
   - {fileID: 11400000, guid: 055152b499081c04bb0e5f89e7b1b570, type: 2}
   - {fileID: 11400000, guid: 71a428d05cfc77440ad35460f1402d7f, type: 2}
+  _wispShopItems:
+  - {fileID: 11400000, guid: 894788d2782488043822de20c2ad40fb, type: 2}
+  - {fileID: 11400000, guid: b6cecbb4078524141a03e9da7ae62c17, type: 2}
+  - {fileID: 11400000, guid: 39eef23b774f11c43a7a73ab8dfea937, type: 2}
+  - {fileID: 11400000, guid: 5ba2d7d38dc9c904f912aec16fbd459e, type: 2}
+  - {fileID: 11400000, guid: e38a9e20a94a939428ee2619b21af060, type: 2}
+  - {fileID: 11400000, guid: 5dd7985d118188241a2628b7001e5f19, type: 2}
+  - {fileID: 11400000, guid: e59a353a4f8c0944699e0c223fc628b0, type: 2}
+  - {fileID: 11400000, guid: 762ccfb897dc6d7439abd6da44d63bfc, type: 2}

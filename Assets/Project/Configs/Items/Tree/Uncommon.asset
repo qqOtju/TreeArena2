@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: Uncommon
   _description: 
-  _icon: {fileID: 5865670524570963042, guid: 6ab540350f550c74c83fdb7f60be9b00, type: 3}
+  _icon: {fileID: 21300000, guid: 77a7befda70d2d84ca63701966993fb7, type: 3}
   _rarity: 0
   _maxHealth: 5
   _regen: 1

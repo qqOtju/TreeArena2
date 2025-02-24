@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Project.Scripts.Config.Item.Tree
@@ -7,7 +6,7 @@ namespace Project.Scripts.Config.Item.Tree
     [CreateAssetMenu(menuName = "Item/Tree", fileName = "Tree Item")]
     public class TreeItem: ScriptableObject
     {
-        [Title("General")]
+        [Title("Info")]
         [SerializeField] private string _itemName;
         [SerializeField] private string _description;
         [SerializeField] private Sprite _icon;
@@ -26,21 +25,6 @@ namespace Project.Scripts.Config.Item.Tree
         public float Regen => _regen;
         public int Armor => _armor;
         public float Absorption => _absorption;
-
-        //ToDo: врахловувати негативні бонуси
-        public static string FormStats(TreeItem treeItem)
-        {
-            var statsBuilder = new StringBuilder();
-            if(treeItem.MaxHealth != 0)
-                statsBuilder.AppendLine($"+{treeItem.MaxHealth} HP");
-            if(treeItem.Regen != 0)
-                statsBuilder.AppendLine($"+{treeItem.Regen} Regen");
-            if(treeItem.Armor != 0)
-                statsBuilder.AppendLine($"+{treeItem.Armor} Armor");
-            if(treeItem.Absorption != 0)
-                statsBuilder.AppendLine($"+{treeItem.Absorption} Absorption");
-            return statsBuilder.ToString();
-        }
     }
     
     public enum TreeItemRarity

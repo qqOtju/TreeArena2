@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a53d70e790d44c2bb2e163be424dc9b, type: 3}
+  m_Name: Wisp Shop Item 5
+  m_EditorClassIdentifier: 
+  _itemName: 
+  _description: 
+  _icon: {fileID: 21300000, guid: 07dfe49c45ce0ce42bd1392ed2fb9eb9, type: 3}
+  _rarity: 0
+  _price: 0
+  _damage: 3
+  _attackSpeed: 0
+  _criticalChance: 0
+  _criticalDamage: 0
+  _piercing: 0
+  _bonusEliteDamage: 3
+  _bonusBossDamage: 3
+  _enemyMaxHealth: 0
+  _enemyMoveSpeed: 3
+  _enemyDamage: 0
+  _enemyAttackSpeed: 0
+  _enemyAttackRange: 0
+  _wispDecoratorTypeName: 

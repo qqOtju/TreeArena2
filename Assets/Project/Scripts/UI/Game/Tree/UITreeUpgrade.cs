@@ -19,7 +19,6 @@ namespace Project.Scripts.UI.Game.Tree
         [SerializeField] private UITreeItem[] _uiTreeItems;
         [SerializeField] private TMP_Text[] _currentTreeStats;
         
-        //ToDo: make tmp_text counter
         private const int ResetCount = 1;
         
         private TreeItemManager _treeItemManager;
@@ -66,12 +65,10 @@ namespace Project.Scripts.UI.Game.Tree
 
         private void UseReset()
         {
-            if (_resetCounter > 0)
-            {
-                _resetCounter--;
-                _resetCounterText.text = $"{_resetCounter}/{ResetCount}";
-                ResetItems();
-            }
+            if (_resetCounter <= 0) return;
+            _resetCounter--;
+            _resetCounterText.text = $"{_resetCounter}/{ResetCount}";
+            ResetItems();
         }
 
         private void OnWaveEndHandler(int obj)
@@ -92,12 +89,12 @@ namespace Project.Scripts.UI.Game.Tree
                 uiTreeItem.SetItem(_treeItemManager.GetRandomItem());
         }
 
-        private void OnItemChooseHandler(TreeItem obj)
+        private void OnItemChooseHandler(TreeItem item)
         {
             //ToDo: Check
-            if(obj.Rarity == TreeItemRarity.Unique)
-                _treeItemManager.RemoveItem(obj);
-            _treeBonuses.ApplyItemBonuses(obj);
+            if(item.Rarity == TreeItemRarity.Unique)
+                _treeItemManager.RemoveItem(item);
+            _treeBonuses.ApplyItemBonuses(item);
             _canvas.enabled = false;
             OnClose?.Invoke();
         }

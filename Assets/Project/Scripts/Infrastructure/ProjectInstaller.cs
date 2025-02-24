@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Project.Scripts.Config.Item.Tree;
+using Project.Scripts.Config.Item.WispShop;
 using Project.Scripts.Config.Wisp;
-using Project.Scripts.GameLogic;
 using Project.Scripts.GameLogic.GameCycle;
 using UnityEngine;
 using Zenject;
@@ -12,13 +12,14 @@ namespace Project.Scripts.Infrastructure
     {
         [SerializeField] private WispData _baseWispData;
         [SerializeField] private List<TreeItem> _treeItems;
+        [SerializeField] private List<WispItem> _wispShopItems;
 
-        
         public override void InstallBindings()
         {
             BindDiContainer();
             BindGameData();
             BindTreeItems();
+            BindWispShopItems();
         }
 
         private void BindDiContainer()
@@ -36,6 +37,11 @@ namespace Project.Scripts.Infrastructure
         {
             //TODO: Check, make something better
             Container.Bind<List<TreeItem>>().FromInstance(_treeItems).AsSingle();
+        }
+        
+        private void BindWispShopItems()
+        {
+            Container.Bind<List<WispItem>>().FromInstance(_wispShopItems).AsSingle();
         }
     }
 }
