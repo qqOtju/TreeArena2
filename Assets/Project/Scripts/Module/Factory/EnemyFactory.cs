@@ -12,6 +12,7 @@ namespace Project.Scripts.Module.Factory
     public class EnemyFactory
     {
         private readonly Dictionary<EnemyData, MonoBehaviourPool<EnemyBase>> _pools = new();
+        //ToDo: Rename
         private readonly Dictionary<EnemyBase, MonoBehaviourPool<EnemyBase>> _poolies = new();
         private readonly Transform _container;
         private readonly DiContainer _diContainer;

@@ -29,6 +29,7 @@ namespace Project.Scripts.GameLogic.Enemy
         protected Tree TargetTree;
         
         public EnemyType Type => _type;
+        public EnemyValue Value => EnemyValue;
         
         public event Action<EnemyBase> OnDeath;
         public event Action<EnemyBase, IHealth> OnDealDamage;

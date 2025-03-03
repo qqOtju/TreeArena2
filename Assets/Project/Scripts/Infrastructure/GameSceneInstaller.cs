@@ -13,6 +13,7 @@ using Project.Scripts.Module.ItemManager;
 using Project.Scripts.Module.Stats.Enemy;
 using Project.Scripts.Module.Stats.Tree;
 using Project.Scripts.Module.Stats.Wisp;
+using Project.Scripts.Module.System;
 using UnityEngine;
 using Zenject;
 using Tree = Project.Scripts.GameLogic.Character.Tree;
@@ -50,6 +51,7 @@ namespace Project.Scripts.Infrastructure
             BindEnemyFactory();
             BindWisp();
             BindTreeItemManager();
+            BindCoinSystem();
             BindWispShopItemManager();
         }
 
@@ -99,6 +101,12 @@ namespace Project.Scripts.Infrastructure
         {
             var treeItemManager = new TreeItemManager(_treeItems);
             Container.Bind<TreeItemManager>().FromInstance(treeItemManager).AsSingle();
+        }
+
+        private void BindCoinSystem()
+        {
+            var coinSystem = new CoinSystem(0);
+            Container.Bind<CoinSystem>().FromInstance(coinSystem).AsSingle();
         }
         
         private void BindWispShopItemManager()

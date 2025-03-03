@@ -18,6 +18,7 @@ MonoBehaviour:
     _damage: 50
     _attackSpeed: 2
     _attackRange: 1
+    _coinsDropCount: 3
     _maxHealthPerWave: 0
     _moveSpeedPerWave: 0
     _damagePerWave: 0

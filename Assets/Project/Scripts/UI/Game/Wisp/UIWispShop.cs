@@ -2,9 +2,11 @@
 using Project.Scripts.Config.Item.WispShop;
 using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.GameLogic.Character.Wisp;
+using Project.Scripts.GameLogic.Dropdown;
 using Project.Scripts.Module.ItemManager;
 using Project.Scripts.Module.Stats.Enemy;
 using Project.Scripts.Module.Stats.Wisp;
+using Project.Scripts.Module.System;
 using Project.Scripts.UI.Game.Tree;
 using TMPro;
 using UnityEngine;
@@ -30,6 +32,7 @@ namespace Project.Scripts.UI.Game.Wisp
         private EnemyBonuses _enemyBonuses;
         private WispBonuses _wispBonuses;
         private WispStats _wispStats;
+        private CoinSystem _coinSystem;
         private int _resetCounter;
         private Canvas _canvas;
         private IWisp _wisp;
@@ -38,18 +41,20 @@ namespace Project.Scripts.UI.Game.Wisp
         
         [Inject]
         private void Construct(WispItemManager wispItemManager, WispStats wispStats, 
-            WispBonuses wispBonuses, EnemyBonuses enemyBonuses, IWisp wisp)
+            WispBonuses wispBonuses, EnemyBonuses enemyBonuses, IWisp wisp, CoinSystem coinSystem)
         {
             _wispItemManager = wispItemManager;
             _enemyBonuses = enemyBonuses;
             _wispBonuses = wispBonuses;
             _wispStats = wispStats;
+            _coinSystem = coinSystem;
             _wisp = wisp;
         }
         
         private void Awake()
         {
             _uiTreeUpgrade.OnClose += Open;
+            _coinSystem.OnGoldChange += UpdateGoldCounter;
             _closeButton.onClick.AddListener(Close);
             foreach (var item in _uiWispItems)
                 item.OnItemBuy += (wispItem) => OnItemBuyHandler(wispItem, item);
@@ -68,6 +73,12 @@ namespace Project.Scripts.UI.Game.Wisp
             _uiTreeUpgrade.OnClose -= Open;
             _closeButton.onClick.RemoveListener(Close);
             _resetButton.onClick.RemoveListener(UseReset);
+            _coinSystem.OnGoldChange -= UpdateGoldCounter;
+        }
+
+        private void UpdateGoldCounter(int obj)
+        {
+            _coins.text = obj.ToString();
         }
 
         private void UseReset()
@@ -82,9 +93,12 @@ namespace Project.Scripts.UI.Game.Wisp
 
         private void OnItemBuyHandler(WispItem item, UIWispItem wispItem)
         {
+            if(_coinSystem.CurrentGold < item.Price) return;
+            _coinSystem.CurrentGold -= item.Price;
             if(item.Rarity == WispShopItemRarity.Unique)
                 _wispItemManager.RemoveItem(item);
             _wispBonuses.ApplyItemBonuses(item);
+            _enemyBonuses.ApplyItemBonuses(item);
             //ToDo: Change maybe
             wispItem.SetItem(_wispItemManager.GetRandomItem());
             if(item.WispDecoratorType != null)

@@ -12,6 +12,7 @@
         Enemy,
         Bullet,
         EnemySpawner,
-        Wave
+        Wave,
+        Coin
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   _description: 
   _icon: {fileID: 21300000, guid: ca534f770537a1b4eb5b004633177f92, type: 3}
   _rarity: 1
-  _price: 0
+  _price: 1
   _damage: 0
   _attackSpeed: 7
   _criticalChance: 7
