@@ -18,7 +18,7 @@ TagManager:
   - Enemy
   - Tree
   - Player
-  - 
+  - Darkness
   - 
   - 
   - 
@@ -42,8 +42,14 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BottomGrid
+    uniqueID: 4212104171
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: TopGrid
+    uniqueID: 1745952777
     locked: 0
   m_RenderingLayers:
   - Default
