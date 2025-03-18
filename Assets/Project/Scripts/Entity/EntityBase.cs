@@ -24,13 +24,13 @@ namespace Project.Scripts.Entity
             {
                 var baseHealth = _currentHealth;
                 _currentHealth = Mathf.Clamp(value, 0, MaxHealth); 
-                OnHealthChange?.Invoke(CreateHealthChangeArgs(baseHealth,CurrentHealth,transform.position));
+                OnHealthChange?.Invoke(CreateHealthChangeArgs(baseHealth,CurrentHealth));
             }
         }
 
         public event Action<OnHealthChangeArgs> OnHealthChange;
 
-        private OnHealthChangeArgs CreateHealthChangeArgs(float previousHealth, float currentHealth, Vector3 position)
+        private OnHealthChangeArgs CreateHealthChangeArgs(float previousHealth, float currentHealth)
         {
             var type = HeathChangeType.Damage;
             if (currentHealth > previousHealth)
@@ -40,7 +40,8 @@ namespace Project.Scripts.Entity
             var args = new OnHealthChangeArgs
             {
                 Object = gameObject,
-                Value = currentHealth,
+                CurrentHealth = currentHealth,
+                PreviousHealth = previousHealth,
                 Type = type
             };
             LastHealthChangeArgs = args;
@@ -49,14 +50,14 @@ namespace Project.Scripts.Entity
 
         public virtual void TakeDamage(float dmg)
         {
-            var args = CreateHealthChangeArgs(CurrentHealth, CurrentHealth - dmg, transform.position);
+            var args = CreateHealthChangeArgs(CurrentHealth, CurrentHealth - dmg);
             CurrentHealth -= dmg;
             DebugSystem.Instance.Log(LogType.Entity, $"{gameObject.name} takes <color=red>{dmg}</color> damage | {CurrentHealth}/{MaxHealth}");
         }
         
         public virtual void Heal(float heal)
         {
-            var args = CreateHealthChangeArgs(CurrentHealth, CurrentHealth + heal, transform.position);
+            var args = CreateHealthChangeArgs(CurrentHealth, CurrentHealth + heal);
             CurrentHealth += heal;
             //DebugSystem.Instance.Log(LogType.Entity, $"{gameObject.name} heals <color=green>{heal}</color> | {CurrentHealth}/{MaxHealth}");
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using Project.Scripts.GameLogic.Character.Decorator;
 using Project.Scripts.Module.Factory;
 using UnityEngine;
 
@@ -79,6 +78,7 @@ namespace Project.Scripts.GameLogic.Character.Wisp
 
         protected void RotateView()
         {
+            _view.rotation = Quaternion.identity;
             if(MoveDirection.x > 0)
                 _view.localScale = new Vector3(1, 1, 1);
             else if(MoveDirection.x < 0)

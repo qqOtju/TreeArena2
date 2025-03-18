@@ -172,7 +172,7 @@ namespace Project.Scripts.Debug
         
         private void CreateLogText(LogMessage message)
         {
-            var newLine = $"[{message.Time:HH:mm:ss}] {message.Message}";
+            var newLine = $"<color=grey>[{message.Time:HH:mm:ss}]</color> {message.Message}";
             _logBuilder.AppendLine(newLine);
             _currentLines++;
             if (_currentLines > MaxLogEntries && _limitLogEntries)

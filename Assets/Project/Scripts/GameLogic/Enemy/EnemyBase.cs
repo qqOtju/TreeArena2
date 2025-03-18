@@ -15,6 +15,7 @@ namespace Project.Scripts.GameLogic.Enemy
     public class EnemyBase: EntityBase, IEnemyHealth
     {
         [SerializeField] private EnemyType _type;
+        [SerializeField] private Transform _view;
         
         private const string TreeTag = "Tree";
         
@@ -70,6 +71,7 @@ namespace Project.Scripts.GameLogic.Enemy
         {
             CalculateMoveInput();
             AttackCycle();
+            RotateView();
         }
 
         protected virtual void FixedUpdate()
@@ -126,6 +128,15 @@ namespace Project.Scripts.GameLogic.Enemy
         {
             if (obj.Type != HeathChangeType.Death) return;
             OnDeath?.Invoke(this);
+        }
+
+        private void RotateView()
+        {
+            if(MoveInput == Vector2.zero) return;
+            if(MoveInput.x > 0)
+                _view.localScale = new Vector3(1, 1, 1);
+            else if(MoveInput.x < 0)
+                _view.localScale = new Vector3(-1, 1, 1);
         }
 
         private void OnDrawGizmos()

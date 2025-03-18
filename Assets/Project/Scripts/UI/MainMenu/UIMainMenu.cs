@@ -1,41 +1,50 @@
-﻿using Project.Scripts.Config.Wisp;
-using Project.Scripts.GameLogic;
-using Project.Scripts.GameLogic.GameCycle;
-using TMPro;
+﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using Zenject;
 
 namespace Project.Scripts.UI.MainMenu
 {
     public class UIMainMenu: MonoBehaviour
     {
-        [SerializeField] private WispData[] _wispData;
-        [SerializeField] private Button[] _wispButtons;
+        [Title("Button")]
+        [SerializeField] private Button _wispsButton;
+        [SerializeField] private Button _optionsButton;
+        [SerializeField] private Button _exitButton;
+        [Title("Menu")]
+        [SerializeField] private UIPanel _wispMenu;
+        [SerializeField] private UIPanel _optionsMenu;
 
-        private GameData _gameData;
-        
-        [Inject]
-        private void Construct(GameData gameData)
+        private void Awake()
         {
-            _gameData = gameData;
-        }
-        
-        private void Start()
-        {
-            for (int i = 0; i < _wispButtons.Length; i++)
-            {
-                var index = i;
-                _wispButtons[i].GetComponentInChildren<TMP_Text>().text = _wispData[i].Name;
-                _wispButtons[i].onClick.AddListener(() => OnWispButtonClicked(index));
-            }
+            _wispsButton.onClick.AddListener(OnWispsButtonClicked);
+            _optionsButton.onClick.AddListener(OnOptionsButtonClicked);
+            _exitButton.onClick.AddListener(OnExitButtonClicked);
         }
 
-        private void OnWispButtonClicked(int i)
+        private void OnDestroy()
         {
-            _gameData.ChosenWisp = _wispData[i];
-            SceneManager.LoadScene(2, LoadSceneMode.Single);
+            _wispsButton.onClick.RemoveListener(OnWispsButtonClicked);
+            _optionsButton.onClick.RemoveListener(OnOptionsButtonClicked);
+            _exitButton.onClick.RemoveListener(OnExitButtonClicked);
+        }
+
+        private void OnWispsButtonClicked()
+        {
+            _wispMenu.Open();
+        }
+
+        private void OnOptionsButtonClicked()
+        {
+            // _optionsMenu.Open();
+        }
+
+        private void OnExitButtonClicked()
+        {
+            Application.Quit();
+#if Unity_Editor
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
         }
     }
 }

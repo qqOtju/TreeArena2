@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rounded Corners Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 4
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: afd50b3d734d2824a855df31878fd117, type: 3}
+    - {fileID: 2800000, guid: d7879fe5eba69994d846517ec306ffaa, type: 3}
+    - {fileID: 2800000, guid: d8a23c42523f75d41ae94432c2479722, type: 3}
+    - {fileID: 2800000, guid: bf4a83af040829840a0569a0ec10a074, type: 3}
+    - {fileID: 2800000, guid: 095cabacd828fbd41b4a467f0bac8917, type: 3}
+    - {fileID: 2800000, guid: a492700e2a40f0b42b6a7b4180de8ed5, type: 3}
+    - {fileID: 2800000, guid: 12b0d817cf18d924d816579b5fbb19dc, type: 3}
+    - {fileID: 2800000, guid: c1c53f125fdea5c4ebdabf510f738100, type: 3}
+    - {fileID: 2800000, guid: cd227e28f0d44b84a82d50111f4c3dcf, type: 3}
+    - {fileID: 2800000, guid: 19a22f6ace6451748ad7c49da11854ef, type: 3}
+    - {fileID: 2800000, guid: 8b413677f49263f40a03bfda279d78bf, type: 3}
+    - {fileID: 2800000, guid: 32a9bcc30fa966048bf38868ba364aec, type: 3}
+    - {fileID: 2800000, guid: 5ea15177c12781846bb9d59dd38b47ba, type: 3}
+    - {fileID: 2800000, guid: bf23745ecd0357f4f8376a82d7c19ed1, type: 3}
+    - {fileID: 2800000, guid: 378b0cc0994607d4f86d94bc19bead95, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 378b0cc0994607d4f86d94bc19bead95: 21300000
+    - c1c53f125fdea5c4ebdabf510f738100: 21300000
+    - d8a23c42523f75d41ae94432c2479722: 21300000
+    - 32a9bcc30fa966048bf38868ba364aec: 21300000
+    - d7879fe5eba69994d846517ec306ffaa: 21300000
+    - 12b0d817cf18d924d816579b5fbb19dc: 21300000
+    - 5ea15177c12781846bb9d59dd38b47ba: 21300000
+    - 8b413677f49263f40a03bfda279d78bf: 21300000
+    - cd227e28f0d44b84a82d50111f4c3dcf: 21300000
+    - 19a22f6ace6451748ad7c49da11854ef: 21300000
+    - 095cabacd828fbd41b4a467f0bac8917: 21300000
+    - afd50b3d734d2824a855df31878fd117: 21300000
+    - a492700e2a40f0b42b6a7b4180de8ed5: 21300000
+    - bf23745ecd0357f4f8376a82d7c19ed1: 21300000
+    - bf4a83af040829840a0569a0ec10a074: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 378b0cc0994607d4f86d94bc19bead95, type: 3}
+  - {fileID: 21300000, guid: c1c53f125fdea5c4ebdabf510f738100, type: 3}
+  - {fileID: 21300000, guid: d8a23c42523f75d41ae94432c2479722, type: 3}
+  - {fileID: 21300000, guid: 32a9bcc30fa966048bf38868ba364aec, type: 3}
+  - {fileID: 21300000, guid: d7879fe5eba69994d846517ec306ffaa, type: 3}
+  - {fileID: 21300000, guid: 12b0d817cf18d924d816579b5fbb19dc, type: 3}
+  - {fileID: 21300000, guid: 5ea15177c12781846bb9d59dd38b47ba, type: 3}
+  - {fileID: 21300000, guid: 8b413677f49263f40a03bfda279d78bf, type: 3}
+  - {fileID: 21300000, guid: cd227e28f0d44b84a82d50111f4c3dcf, type: 3}
+  - {fileID: 21300000, guid: 19a22f6ace6451748ad7c49da11854ef, type: 3}
+  - {fileID: 21300000, guid: 095cabacd828fbd41b4a467f0bac8917, type: 3}
+  - {fileID: 21300000, guid: afd50b3d734d2824a855df31878fd117, type: 3}
+  - {fileID: 21300000, guid: a492700e2a40f0b42b6a7b4180de8ed5, type: 3}
+  - {fileID: 21300000, guid: bf23745ecd0357f4f8376a82d7c19ed1, type: 3}
+  - {fileID: 21300000, guid: bf4a83af040829840a0569a0ec10a074, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - 16
+  - 9
+  - 4
+  - 13
+  - 3
+  - 8
+  - 14
+  - 12
+  - 10
+  - 11
+  - 6
+  - 2
+  - 7
+  - 15
+  - 5
+  m_RenderDataMap: {}
+  m_Tag: Rounded Corners Atlas
+  m_IsVariant: 0

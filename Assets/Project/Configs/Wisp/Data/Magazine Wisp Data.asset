@@ -16,4 +16,4 @@ MonoBehaviour:
   _name: Magazine
   _description: 
   _wispPrefab: {fileID: 7142948479855011892, guid: cbb19033a1398cc43bec6a2006c86020, type: 3}
-  _wispConfig: {fileID: 11400000, guid: eac77c2481584bd4a9c290253be0ded8, type: 2}
+  _wispConfig: {fileID: 11400000, guid: 7c4128d6fb85037408ab45b246faf346, type: 2}

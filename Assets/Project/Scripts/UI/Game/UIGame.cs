@@ -1,6 +1,8 @@
 ﻿
+using System;
 using Project.Scripts.Entity;
 using Project.Scripts.Module.Stats.Tree;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -12,6 +14,7 @@ namespace Project.Scripts.UI.Game
         [SerializeField] private GameLogic.Character.Tree _tree;
         [SerializeField] private Slider _healthSlider;
         [SerializeField] private Slider _armorSlider;
+        [SerializeField] private TMP_Text _healthText;
 
         private TreeStats _treeStats;
         
@@ -36,6 +39,7 @@ namespace Project.Scripts.UI.Game
         private void UpdateHealthSlider(OnHealthChangeArgs obj)
         {
             _healthSlider.value = _tree.CurrentHealth / _tree.MaxHealth;
+            _healthText.text = $"{_tree.CurrentHealth:F0}/{_tree.MaxHealth:F0}";
         }
 
         private void UpdateArmorSlider(float obj)

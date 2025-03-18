@@ -90,7 +90,7 @@ namespace Project.Scripts.GameLogic.Character.Component
             }
             var tr = bullet.transform;
             var rb = bullet.Rb;
-            var moveForce = tr.position + tr.right / 5;
+            var moveForce = tr.position + tr.right / 4;
             rb.MovePosition(moveForce);
         }
 
