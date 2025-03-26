@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawns:
   - _spawnPoint: 5
-    _enemyData: {fileID: 11400000, guid: 69375b813b77ed2449a87d0e3299db28, type: 2}
+    _enemyData: {fileID: 11400000, guid: 230793ff6e3608d498b21a7437f95f5e, type: 2}
+    _enemyCount: 1
+    _spawnDelay: 0
+    _waveDelay: 0
+  - _spawnPoint: 26
+    _enemyData: {fileID: 11400000, guid: 9d49e20085a638643942bddcbddec9ba, type: 2}
     _enemyCount: 1
     _spawnDelay: 0
     _waveDelay: 0

@@ -18,6 +18,7 @@ namespace Project.Scripts.GameLogic.DmgDisplay
         [SerializeField] private Color _damageFromEnemy;
         [SerializeField] private Color _damageToEnemy;
         [SerializeField] private Color _damageToEnemyCritical;
+        [SerializeField] private Color _heal;
 
         private ObjectPool<TMP_Text> _textPool;
         private Transform _container;
@@ -81,8 +82,10 @@ namespace Project.Scripts.GameLogic.DmgDisplay
         private void OnDamageDealt(OnHealthChangeArgs obj)
         {
             var damage = obj.CurrentHealth - obj.PreviousHealth;
-            damage = Mathf.Abs(damage);
-            OnDamageDealt(obj.Object.transform.position, damage, DamageType.Damage);
+            if(damage > 0)
+                OnDamageDealt(obj.Object.transform.position, damage, DamageType.Heal);
+            else
+                OnDamageDealt(obj.Object.transform.position, Mathf.Abs(damage), DamageType.Damage);
         }
 
         private void OnDamageDealt(Vector3 pos, float value, DamageType damageType)
@@ -105,6 +108,9 @@ namespace Project.Scripts.GameLogic.DmgDisplay
                     break;
                 case DamageType.DamageToTree:
                     text.color = _damageFromEnemy;
+                    break;
+                case DamageType.Heal:
+                    text.color = _heal;        
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null);
@@ -135,7 +141,8 @@ namespace Project.Scripts.GameLogic.DmgDisplay
             Damage,
             CriticalDamage,
             //ToDo: Its not used right
-            DamageToTree
+            DamageToTree,
+            Heal
         }
     }
     

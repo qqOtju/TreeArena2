@@ -105,6 +105,19 @@ namespace Project.Scripts.Config.Enemy
                 _coinsDropCount = a._coinsDropCount + b._coinsDropCount
             };
         }
+        
+        public static EnemyValue operator -(EnemyValue a, EnemyValue b)
+        {
+            return new EnemyValue
+            {
+                _maxHealth = a._maxHealth - b._maxHealth,
+                _moveSpeed = a._moveSpeed - b._moveSpeed,
+                _damage = a._damage - b._damage,
+                _attackSpeed = a._attackSpeed - b._attackSpeed,
+                _attackRange = a._attackRange - b._attackRange,
+                _coinsDropCount = a._coinsDropCount - b._coinsDropCount
+            };
+        }
 
         public static EnemyValue GetUpgraded(EnemyValue value, EnemyBonuses bonuses)
         {

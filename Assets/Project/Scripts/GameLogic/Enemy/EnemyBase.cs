@@ -14,20 +14,21 @@ namespace Project.Scripts.GameLogic.Enemy
     [RequireComponent(typeof(Rigidbody2D), typeof(Collider2D))]
     public class EnemyBase: EntityBase, IEnemyHealth
     {
-        [SerializeField] private EnemyType _type;
         [SerializeField] private Transform _view;
         
-        private const string TreeTag = "Tree";
+        private const string TreeTagLayer = "Tree";
         
         private Collider2D[] _nearbyObjects = new Collider2D[20];
         private ContactFilter2D _contactFilter;
-        private float _attackTimer;
+        private EnemyType _type;
         
         protected BasicMovement BasicMovement;
         protected Vector3 TargetPosition;
         protected EnemyValue EnemyValue;
         protected Vector2 MoveInput;
+        protected float AttackTimer;
         protected Tree TargetTree;
+        protected Rigidbody2D Rb;
         
         public EnemyType Type => _type;
         public EnemyValue Value => EnemyValue;
@@ -35,10 +36,11 @@ namespace Project.Scripts.GameLogic.Enemy
         public event Action<EnemyBase> OnDeath;
         public event Action<EnemyBase, IHealth> OnDealDamage;
 
-        public void Initialize(EnemyValue enemyStat, Tree tree)
+        public virtual void Initialize(EnemyValue enemyStat, EnemyType enemyType, Tree tree)
         {
             EnemyValue = enemyStat;
             TargetTree = tree;
+            _type = enemyType;
             var range = 0.8f;
             TargetPosition = tree.transform.position + new Vector3(Random.Range(-range, range), Random.Range(-range, range), 0);
             SetInitialHealth(EnemyValue.MaxHealth);
@@ -59,19 +61,25 @@ namespace Project.Scripts.GameLogic.Enemy
 
         protected virtual void Start()
         {
-            BasicMovement = new BasicMovement(GetComponent<Rigidbody2D>());
+            Rb = GetComponent<Rigidbody2D>();
+            BasicMovement = new BasicMovement(Rb);
             _contactFilter = new ContactFilter2D
             {
                 useLayerMask = true,
-                layerMask = LayerMask.GetMask(TreeTag)
+                layerMask = LayerMask.GetMask(TreeTagLayer)
             };
+        }
+
+        protected virtual void OnDestroy()
+        {
+            OnHealthChange -= CheckDeath;
         }
 
         protected virtual void Update()
         {
             CalculateMoveInput();
             AttackCycle();
-            RotateView();
+            RotateView(MoveInput);
         }
 
         protected virtual void FixedUpdate()
@@ -84,7 +92,7 @@ namespace Project.Scripts.GameLogic.Enemy
             BasicMovement.Move(MoveInput, EnemyValue.MoveSpeed);
         }
         
-        private void CalculateMoveInput()
+        protected virtual void CalculateMoveInput()
         {
              if(IsNearbyTree())
                 MoveInput = Vector2.zero;
@@ -95,20 +103,24 @@ namespace Project.Scripts.GameLogic.Enemy
         protected virtual void AttackCycle()
         {
             if(!IsNearbyTree()) return;
-            _attackTimer += Time.deltaTime;
-            if (_attackTimer >= EnemyValue.AttackSpeed)
+            AttackTimer += Time.deltaTime;
+            if (AttackTimer >= EnemyValue.AttackSpeed)
             {
                 Attack(TargetTree);
-                _attackTimer = 0;
+                AttackTimer = 0;
             }
         }
 
-        private bool IsNearbyTree()
+        protected bool IsNearbyTree()
         {
+            //ToDo: Maybe change to the way it realized in EnemyChargerStateAttack.
+            //if (Vector2.Distance(_transform.position, _tree.transform.position) < Range)
+            //    Attack...
+            Array.Clear(_nearbyObjects, 0, _nearbyObjects.Length);
             Physics2D.OverlapCircle(transform.position, 
                 EnemyValue.AttackRange, _contactFilter, _nearbyObjects);
             foreach (var hit in _nearbyObjects)
-                if (hit != null && hit.transform.CompareTag(TreeTag))
+                if (hit != null && hit.transform.CompareTag(TreeTagLayer))
                     return true;
             return false;
         }
@@ -130,16 +142,16 @@ namespace Project.Scripts.GameLogic.Enemy
             OnDeath?.Invoke(this);
         }
 
-        private void RotateView()
+        protected void RotateView(Vector2 moveInput)
         {
-            if(MoveInput == Vector2.zero) return;
-            if(MoveInput.x > 0)
+            if(moveInput == Vector2.zero) return;
+            if(moveInput.x > 0)
                 _view.localScale = new Vector3(1, 1, 1);
-            else if(MoveInput.x < 0)
+            else if(moveInput.x < 0)
                 _view.localScale = new Vector3(-1, 1, 1);
         }
 
-        private void OnDrawGizmos()
+        protected virtual void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, EnemyValue.AttackRange);

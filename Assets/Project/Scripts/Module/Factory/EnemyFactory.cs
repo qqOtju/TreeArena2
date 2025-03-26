@@ -64,7 +64,7 @@ namespace Project.Scripts.Module.Factory
             var stats = enemyData.EnemyConfig.Value;
             stats = EnemyValue.GetMultipliedValue(stats ,_currentWaveIndex);
             stats = EnemyValue.GetUpgraded(stats, _enemyBonuses);
-            enemy.Initialize(stats, _tree);
+            enemy.Initialize(stats, enemyData.EnemyType, _tree);
             return enemy;
         }
         

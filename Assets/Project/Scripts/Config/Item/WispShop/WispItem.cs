@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using Project.Scripts.GameLogic.Character.Decorator;
-using Project.Scripts.Utils;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -54,6 +53,7 @@ namespace Project.Scripts.Config.Item.WispShop
         public float EnemyAttackRange => _enemyAttackRange;
         public Type WispDecoratorType => string.IsNullOrEmpty(_wispDecoratorTypeName) ? null : Type.GetType(_wispDecoratorTypeName);
         
+        #if UNITY_EDITOR
         private static ValueDropdownList<string> GetWispDecoratorTypes()
         {
             var list = new ValueDropdownList<string>
@@ -70,6 +70,7 @@ namespace Project.Scripts.Config.Item.WispShop
                 }
             return list;
         }
+        #endif
     }
     
     public enum WispShopItemRarity

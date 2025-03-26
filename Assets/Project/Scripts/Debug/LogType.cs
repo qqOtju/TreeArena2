@@ -13,6 +13,7 @@
         Bullet,
         EnemySpawner,
         Wave,
-        Coin
+        Coin,
+        Boss
     }
 }

@@ -82,7 +82,7 @@ MonoBehaviour:
   _bulletSpawnPoint: {fileID: 8339688909150035834}
   _view: {fileID: 8526175577771712465}
   _moveSpeed: 3
-  _bulletPrefab: {fileID: 1015478421178358482, guid: 2f01f10f59513ba4ca0a77596f9b258b, type: 3}
+  _bulletPrefab: {fileID: 1015478421178358482, guid: 94b28e2edb1173546b3076377b7a3938, type: 3}
 --- !u!50 &1256158954254262079
 Rigidbody2D:
   serializedVersion: 5

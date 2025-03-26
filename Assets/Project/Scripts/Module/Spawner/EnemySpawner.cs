@@ -68,6 +68,16 @@ namespace Project.Scripts.Module.Spawner
             DebugSystem.Instance.Log(LogType.EnemySpawner, $"Enemy {enemyData.Name} spawned");
         }
 
+        public void SpawnEnemy(Vector3 position, EnemyData enemyData)
+        {
+            var enemy = _enemyFactory.Get(enemyData);
+            enemy.transform.position = position;
+            enemy.OnDeath += OnActiveEnemyDeath;
+            _activeEnemies.Add(enemy);
+            OnEnemySpawn?.Invoke(enemy);
+            DebugSystem.Instance.Log(LogType.EnemySpawner, $"Enemy {enemyData.Name} spawned");
+        }
+
         public void SpawnEnemy(SpawnPoint spawnPoint, EnemyData enemyData)
         {
             var areas = new List<Collider2D>();

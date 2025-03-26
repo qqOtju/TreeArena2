@@ -18,3 +18,8 @@ MonoBehaviour:
     _enemyCount: 1
     _spawnDelay: 0
     _waveDelay: 0
+  - _spawnPoint: 16
+    _enemyData: {fileID: 11400000, guid: 0e4f63b8a151ea2438c91aee3c1f9285, type: 2}
+    _enemyCount: 1
+    _spawnDelay: 0
+    _waveDelay: 0

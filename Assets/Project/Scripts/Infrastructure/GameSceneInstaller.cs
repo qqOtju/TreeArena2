@@ -10,6 +10,7 @@ using Project.Scripts.GameLogic.Enemy;
 using Project.Scripts.GameLogic.GameCycle;
 using Project.Scripts.Module.Factory;
 using Project.Scripts.Module.ItemManager;
+using Project.Scripts.Module.Spawner;
 using Project.Scripts.Module.Stats.Enemy;
 using Project.Scripts.Module.Stats.Tree;
 using Project.Scripts.Module.Stats.Wisp;
@@ -28,6 +29,7 @@ namespace Project.Scripts.Infrastructure
         [SerializeField] private Tree _tree;
         [SerializeField] private Player _player;
         [SerializeField] private Transform _bulletContainer;
+        [SerializeField] private EnemySpawner _enemySpawner;
         
         private EnemyBonuses _enemyBonuses;
         private GameData _gameData;
@@ -44,6 +46,7 @@ namespace Project.Scripts.Infrastructure
         
         public override void InstallBindings()
         {
+            BindEnemySpawner();
             BindDecoratorFactory();
             BindWispStats();
             BindTreeStats();
@@ -53,6 +56,11 @@ namespace Project.Scripts.Infrastructure
             BindTreeItemManager();
             BindCoinSystem();
             BindWispShopItemManager();
+        }
+
+        private void BindEnemySpawner()
+        {
+            Container.Bind<EnemySpawner>().FromInstance(_enemySpawner);
         }
 
         private void BindDecoratorFactory()

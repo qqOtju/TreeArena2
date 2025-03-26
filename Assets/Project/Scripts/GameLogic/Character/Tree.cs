@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace Project.Scripts.GameLogic.Character
 {
+    [SelectionBase]
     public class Tree: EntityBase
     {
         [SerializeField] private WaveController _waveController;

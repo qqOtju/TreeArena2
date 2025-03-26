@@ -1,4 +1,5 @@
-﻿using Project.Scripts.Debug;
+﻿using System;
+using Project.Scripts.Debug;
 using Project.Scripts.Entity;
 using Project.Scripts.GameLogic.Wave;
 using UnityEngine;
@@ -37,6 +38,15 @@ namespace Project.Scripts.UI.Game
             _canvas = GetComponent<Canvas>();
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                _canvas.enabled = !_canvas.enabled;
+                Time.timeScale = _canvas.enabled ? 0 : 1;
+            }
+        }
+
         private void OnDestroy()
         {
             Time.timeScale = 1;
@@ -49,7 +59,7 @@ namespace Project.Scripts.UI.Game
 
         private void OnRestartButtonClick()
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         }
 
         private void OnExitButtonClick()

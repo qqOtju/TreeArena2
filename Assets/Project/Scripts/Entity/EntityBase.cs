@@ -24,7 +24,8 @@ namespace Project.Scripts.Entity
             {
                 var baseHealth = _currentHealth;
                 _currentHealth = Mathf.Clamp(value, 0, MaxHealth); 
-                OnHealthChange?.Invoke(CreateHealthChangeArgs(baseHealth,CurrentHealth));
+                if(baseHealth == _currentHealth) return;
+                    OnHealthChange?.Invoke(CreateHealthChangeArgs(baseHealth,CurrentHealth));
             }
         }
 

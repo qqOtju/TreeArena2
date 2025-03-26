@@ -29,6 +29,7 @@ namespace Project.Scripts.Debug
         [SerializeField] private Button _openButton;
         [SerializeField] private Button _limitLogEntriesButton;
         
+        private const string ScreenshotPath = "Screenshot/";
         private const int MaxLogEntries = 30;
         private const string LogFileName = "log.txt";
         
@@ -43,12 +44,13 @@ namespace Project.Scripts.Debug
         private LogType _currentLogType;
         private int _currentLines;
         private bool _limitLogEntries = false;
+        private int _screenshotIndex = 0;
 
         public static DebugSystem Instance { get; private set; }
 
         private void Awake()
         {
-            if (Instance != null)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
                 return;
@@ -71,15 +73,37 @@ namespace Project.Scripts.Debug
             SetLimitLogEntries();
         }
 
+        private void Start()
+        {
+            _screenshotIndex = PlayerPrefs.GetInt("ScreenshotIndex", 0);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                Screenshot();
+            }
+        }
+
         private void OnDestroy()
         {
-            Instance = null;
+            if(Instance == this)
+                Instance = null;
             _pauseButton.onClick.RemoveAllListeners();
             _logToFileButton.onClick.RemoveAllListeners();
             _toggleWindowSizeButton.onClick.RemoveAllListeners();
             _closeButton.onClick.RemoveAllListeners();
             _openButton.onClick.RemoveAllListeners();
             _limitLogEntriesButton.onClick.RemoveAllListeners();
+        }
+
+        private void Screenshot()
+        {
+            var path = ScreenshotPath + $"screenshot_{_screenshotIndex}.png";
+            ScreenCapture.CaptureScreenshot(path);
+            _screenshotIndex++;
+            PlayerPrefs.SetInt("ScreenshotIndex", _screenshotIndex);
         }
 
         private void SetLimitLogEntries()

@@ -50,8 +50,8 @@ MonoBehaviour:
   _bulletSpawnPoint: {fileID: 8481131639128596818}
   _view: {fileID: 7826005476708007015}
   _moveSpeed: 3
-  _bulletAPrefab: {fileID: 1015478421178358482, guid: 2f01f10f59513ba4ca0a77596f9b258b, type: 3}
-  _bulletBPrefab: {fileID: 1015478421178358482, guid: de09d32176d565347949ab7b2a53d4f9, type: 3}
+  _bulletAPrefab: {fileID: 1015478421178358482, guid: 94b28e2edb1173546b3076377b7a3938, type: 3}
+  _bulletBPrefab: {fileID: 2225028488586551350, guid: 60d5f607d559c7b4e818fc14378ef063, type: 3}
 --- !u!50 &1301521432930604337
 Rigidbody2D:
   serializedVersion: 5

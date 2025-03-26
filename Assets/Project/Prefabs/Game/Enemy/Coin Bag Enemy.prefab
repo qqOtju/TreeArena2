@@ -1,0 +1,98 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4773043011769701110
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1632936652546345544, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_Name
+      value: Coin Bag Enemy 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3571948795194923941, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970874782195110505, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970874782195110505, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_Color.g
+      value: 0.16043663
+      objectReference: {fileID: 0}
+    - target: {fileID: 3970874782195110505, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5320627695528089098, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1632936652546345544, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 8940551908260583358}
+  m_SourcePrefab: {fileID: 100100000, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+--- !u!4 &4428970907400412362 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9172597446832131644, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+  m_PrefabInstance: {fileID: 4773043011769701110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6094525260949625022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1632936652546345544, guid: 58cf8de20a9f32641a91c5c24fdbf1ac, type: 3}
+  m_PrefabInstance: {fileID: 4773043011769701110}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8940551908260583358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6094525260949625022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721606eb008c400590d6715253ee8de3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _view: {fileID: 4428970907400412362}

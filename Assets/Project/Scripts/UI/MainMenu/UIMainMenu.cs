@@ -9,15 +9,18 @@ namespace Project.Scripts.UI.MainMenu
     {
         [Title("Button")]
         [SerializeField] private Button _wispsButton;
+        [SerializeField] private Button _logBookButton;
         [SerializeField] private Button _optionsButton;
         [SerializeField] private Button _exitButton;
         [Title("Menu")]
         [SerializeField] private UIPanel _wispMenu;
+        [SerializeField] private UIPanel _logBookMenu;
         [SerializeField] private UIPanel _optionsMenu;
 
         private void Awake()
         {
             _wispsButton.onClick.AddListener(OnWispsButtonClicked);
+            _logBookButton.onClick.AddListener(OnLogBookButtonClicked);
             _optionsButton.onClick.AddListener(OnOptionsButtonClicked);
             _exitButton.onClick.AddListener(OnExitButtonClicked);
         }
@@ -25,6 +28,7 @@ namespace Project.Scripts.UI.MainMenu
         private void OnDestroy()
         {
             _wispsButton.onClick.RemoveListener(OnWispsButtonClicked);
+            _logBookButton.onClick.RemoveListener(OnLogBookButtonClicked);
             _optionsButton.onClick.RemoveListener(OnOptionsButtonClicked);
             _exitButton.onClick.RemoveListener(OnExitButtonClicked);
         }
@@ -32,6 +36,11 @@ namespace Project.Scripts.UI.MainMenu
         private void OnWispsButtonClicked()
         {
             _wispMenu.Open();
+        }
+
+        private void OnLogBookButtonClicked()
+        {
+            _logBookMenu.Open();
         }
 
         private void OnOptionsButtonClicked()
